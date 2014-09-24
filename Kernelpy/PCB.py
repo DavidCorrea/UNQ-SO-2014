@@ -8,6 +8,7 @@ class PCB:
 		self._amountInstructions = amountInstructions
 		self._pc = startM
 		self._status = PCBStatus.new
+        self._priority = PCBPriorty.low
 
 	def changeStatus(self, newStatus):
 		self._status = newStatus
@@ -17,7 +18,12 @@ class PCB:
 
 	def hasFinished(self):
 		return self._pc == (self._startM + self._amountInstructions)
-		
+
+    def increasePriority(self):
+        if self._priority == "Low" :
+            self._priority = PCBPriority.medium
+        elif self._priority == "Medium" :
+		    self._priority = PCBPriority.high
 
 class PCBStatus(Enum):
 	new = "New"
