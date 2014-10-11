@@ -17,14 +17,14 @@ class Scheduler:
 
     #El quantum debe ser mayor a 0.
     def set_as_rr(self, quantum):
-        self._policy = RoundRobinScheduler()
+        self._policy = RoundRobinScheduler(quantum)
         self._quantum = quantum
 
     def add(self, pcb):
         self._policy.add(pcb)
 
     def next(self):
-        return self._policy.getPCB
+        return self._policy.get_pcb()
 
 
 class FifoScheduler():
@@ -37,21 +37,29 @@ class FifoScheduler():
 
     def get_pcb(self):
         ret_pcb = self._readyq[0]
-        self._readyq.remove(0)
+        self._readyq.remove(ret_pcb)
         return ret_pcb
 
 
 class PriorityScheduler():
 
     def __init__(self):
-        self._readyq = PriorityQueue
+        self._readyq = PriorityQueue()
+        self._pcbsQ = []
+        self._counter = 0
 
     def add(self, pcb):
-        self._readyq.put(pcb)
+        self._readyq.put((pcb._priority, self._counter, pcb))
+        self._pcbsQ.append(pcb)
+        self._counter += 1
 
     def get_pcb(self):
-        sorted(list(self.readyq))[0]
-
+        #El [2] es porque el next() me devuelve la tupla que guarda la PQ, por lo que le pido el objeto.
+        self.pcb_to_give = self._readyq.get()[2]
+        self._pcbsQ.remove(self.pcb_to_give)
+        for pcb in self._pcbsQ:
+            pcb.increase_priority()
+        return self.pcb_to_give
 
 class RoundRobinScheduler():
 
@@ -63,6 +71,6 @@ class RoundRobinScheduler():
         self._readyq.append(pcb)
 
     def get_pcb(self):
-        ret_pcb = self.readyq[0]
-        self._readyq.remove(0)
+        ret_pcb = self._readyq[0]
+        self._readyq.remove(ret_pcb)
         return ret_pcb
