@@ -8,9 +8,13 @@ class MemoryManager:
     def write(self, program):
         begin = self._next_index
         for i in program.getInstructions():
-            self._memory.put(self._next_index, i.text())
+            # self._memory.put(self._next_index, i.text())
+            self._memory.put(i.text())
             self._next_index += 1
         return begin
 
     def read(self, mem_dir):
-        return self._memory.get(mem_dir)
+        try:
+            return self._memory.get(mem_dir)
+        except IndexError:
+            print "Implementar"

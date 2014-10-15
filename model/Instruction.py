@@ -4,23 +4,25 @@ class Instruction:
         self._text = text
 
     def text(self):
-    	return self._text
+        return self._text
 
     def execute(self, console):
         console.save(self)
 
+
 class InstructionIO(Instruction):
 
-    def __init__(self, text):
-        super(text)
+    def __init__(self):
+        self._text = "This is an IO Instruction"
 
     def isIO(self):
         return True
 
+
 class InstructionCPU(Instruction):
 
-    def __init__(self, text):
-        super(text)
+    def __init__(self):
+        self._text = "This is a CPU Instruction"
 
     def isIO(self):
         return False

@@ -8,7 +8,6 @@ class ThrowIORQ:
 
     def handle(self):
         self._ioQueue.addToWaiting(self._pcb)
-        self._ioQueue.dispatchAll(self._scheduler)
 
 class ThrowKillRQ:
 
@@ -38,7 +37,7 @@ class BuilderInterruption:
 
 
     def buildIORQ(self, pcb):
-        return ThrowIORQ(pcb, self._ioQ, self._scheduler)
+        return ThrowIORQ(pcb, self._ioQ)
 
     def buildKillRQ(self, pcb):
         return ThrowKillRQ(pcb, self._memoryManager)

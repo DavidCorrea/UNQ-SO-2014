@@ -19,10 +19,11 @@ class Kernel:
         self._creatorPCB = PCBCreator()
         self._scheduler = Scheduler()
         policyFor(self._scheduler)
-        self._ioQueue = IOQueue()
+        self._ioQueue = IOQueue(self._memoryManager, self._scheduler)
         self._handler = Handler(self._scheduler, self._memoryManager, self._ioQueue)
         self._lock = Semaphore(0)
         self._cpu = CPU(self)
+        self._ioQueue.start()
 
     def run(self, program):
         program = self._hdd.getProgram(program.getName())

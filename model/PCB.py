@@ -18,6 +18,9 @@ class PCB:
     def increment(self):
         self._pc += 1
 
+    def get_pc(self):
+        return self._pc
+
     def setPriority(self, priority):
         self._priority = priority
 
