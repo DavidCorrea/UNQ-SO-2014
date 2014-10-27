@@ -18,3 +18,5 @@ class Program:
     def addInstruction(self, instruction):
         self._instructions.append(instruction)
 
+    def amount_of_instructions(self):
+        return len(self._instructions)

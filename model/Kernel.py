@@ -2,7 +2,7 @@ from model.Console import *
 from model.MemoryManager import MemoryManager
 from model.Memory import Memory
 from model.HDD import HDD
-from model.pcbCreator import PCBCreator
+from model.PCBCreator import PCBCreator
 from Scheduler import Scheduler
 from InterruptionHandler import Handler
 from IOQueue import IOQueue

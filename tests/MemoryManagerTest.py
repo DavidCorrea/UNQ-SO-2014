@@ -16,7 +16,7 @@ class MemoryManagerTest(unittest.TestCase):
         self.instructionList2 = [self.instruction1, self.instruction2, self.instruction3]
         self.program1 = Program(self.instructionList1, "Pindongo")
         self.program2 = Program(self.instructionList2, "Pituto")
-        self.memory = Memory()
+        self.memory = Memory(1)
         self.memoryManager = MemoryManager(self.memory)
 
     def test_whenTheMemoryManagerAddsTwoProgramsAndIAskForThe6thPosition_thenIShouldGetException(self):

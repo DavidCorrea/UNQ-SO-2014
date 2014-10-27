@@ -1,3 +1,4 @@
+from model.ContinuousAssignment import *
 
 class MemoryManager:
 
@@ -5,6 +6,7 @@ class MemoryManager:
         self._memory = memory
         self._next_index = 0
         self._policy = policy
+        self._memory_free_space = self._memory.get_free_space()
 
     def write(self, program):
         begin = self._next_index
@@ -20,17 +22,5 @@ class MemoryManager:
         except IndexError:
             print "Implementar"
 
-    def set_as_AC(self):
-        self._policy = Asignacion_continua()
-
-    def set_as_Paginacion(self):
-        self._policy = Paginacion()
-
-
-class Asignacion_continua:
-
-    def __init__(self):
-        self._bloque = [Bloque()]
-
-
-class Paginacion:
+    def set_as_CA(self):
+        self._policy = Continuous_Assignment(self._memory)
