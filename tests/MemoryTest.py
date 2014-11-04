@@ -1,6 +1,8 @@
 import unittest
-from model.Memory import *
+
+from memory.Memory import *
 from model.Instruction import *
+
 
 class MemoryTest(unittest.TestCase):
 

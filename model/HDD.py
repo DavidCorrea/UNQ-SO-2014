@@ -1,5 +1,3 @@
-from model.Program import *
-
 class HDD:
 
 	def __init__(self):

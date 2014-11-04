@@ -1,5 +1,6 @@
 import unittest
-from model.PCB import *
+
+from process.PCB import *
 
 
 class PCBTest(unittest.TestCase):

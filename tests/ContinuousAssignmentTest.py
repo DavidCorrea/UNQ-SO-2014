@@ -1,7 +1,5 @@
-import unittest
-from model.Memory import *
-from model.ContinuousAssignment import *
-from model.Program import *
+from memory.Memory import *
+from process.Program import *
 
 class TestContinuousAssignment(unittest.TestCase):
 

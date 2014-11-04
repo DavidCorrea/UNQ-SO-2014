@@ -1,6 +1,8 @@
 import unittest
-from model.Program import Program
+
 from model.Instruction import *
+from process import Program
+
 
 class TestProgram(unittest.TestCase):
 

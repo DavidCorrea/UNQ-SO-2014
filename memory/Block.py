@@ -12,6 +12,9 @@ class Block:
     def __str__(self):
         return "Block ID Number: " + self._id
 
+    def __cmp__(self, other):
+        return self._size > other.size()
+
     def changeStartIndex(self, newStartIndex):
         self._startIndex = newStartIndex
 

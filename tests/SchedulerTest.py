@@ -1,6 +1,7 @@
 import unittest
-from model.Scheduler import *
-from model.PCB import *
+
+from scheduling.Scheduler import *
+from process.PCB import *
 
 
 class TestScheduler(unittest.TestCase):

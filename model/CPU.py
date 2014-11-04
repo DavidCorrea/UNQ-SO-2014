@@ -1,6 +1,7 @@
 from Interruptions import *
 from Clock import Clock
 
+
 class CPU():
 
     def __init__(self, kernel):
@@ -10,8 +11,8 @@ class CPU():
         self._memory_manager = kernel.get_memory_manager()
         self._currentInstruction = None
         self._scheduler = kernel.get_scheduler()
-        self._builderRQ = BuilderInterruption(self._kernel.get_ioQueue(),self._memory_manager,self._scheduler )
-        Clock(self, self._kernel.get_lock() ).run()
+        self._builderRQ = BuilderInterruption(self._kernel.get_ioQueue(), self._memory_manager, self._scheduler)
+        Clock(self, self._kernel.get_lock()).run()
 
     def receive_pcb(self):
         self._current_pcb = self._scheduler.next()

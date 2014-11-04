@@ -1,13 +1,14 @@
+from threading import Semaphore
+
+from memory import MemoryManager, Memory
 from model.Console import *
-from model.MemoryManager import MemoryManager
-from model.Memory import Memory
 from model.HDD import HDD
 from model.PCBCreator import PCBCreator
-from Scheduler import Scheduler
 from InterruptionHandler import Handler
 from IOQueue import IOQueue
-from threading import Semaphore
 from CPU import CPU
+from scheduling import Scheduler
+
 
 class Kernel:
 

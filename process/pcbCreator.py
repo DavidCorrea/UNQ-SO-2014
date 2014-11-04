@@ -1,4 +1,5 @@
-import PCB
+from process import PCB
+
 
 class PCBCreator :
 

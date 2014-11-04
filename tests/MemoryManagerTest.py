@@ -1,8 +1,6 @@
-import unittest
-from model.Memory import *
-from model.MemoryManager import *
-from model.Instruction import *
-from model.Program import *
+from memory.Memory import *
+from memory.MemoryManager import *
+from process.Program import *
 
 
 class MemoryManagerTest(unittest.TestCase):
