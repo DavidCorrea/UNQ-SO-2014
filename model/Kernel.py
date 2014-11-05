@@ -1,8 +1,8 @@
 from threading import Semaphore
 
+from driveAllocation import HDD
 from memory import MemoryManager, Memory
 from model.Console import *
-from model.HDD import HDD
 from model.PCBCreator import PCBCreator
 from InterruptionHandler import Handler
 from IOQueue import IOQueue

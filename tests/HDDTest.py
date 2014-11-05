@@ -1,5 +1,5 @@
 from process.Program import *
-from model.HDD import *
+from driveAllocation.HDD import *
 
 
 class TestHDD(unittest.TestCase):

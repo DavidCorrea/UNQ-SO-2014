@@ -12,16 +12,13 @@ class PCB:
     def __str__(self):
         return 'ID: ' + self._id
 
-    def changeStatus(self, newStatus):
-        self._status = newStatus
-
     def increment(self):
         self._pc += 1
 
     def get_pc(self):
         return self._pc
 
-    def setPriority(self, priority):
+    def set_priority(self, priority):
         self._priority = priority
 
     def has_finished(self):
@@ -42,6 +39,7 @@ class PCBStatus(Enum):
     running = "Running"
     complete = "Complete"
 '''
+
 
 class PCBPriorities:
 

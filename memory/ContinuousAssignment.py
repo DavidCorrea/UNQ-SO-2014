@@ -11,7 +11,7 @@ class ContinuousAssignment:
         self._free_blocks = self._blocks
         self._policy = policy
 
-    def create_new_block(self, program):
+    def create_new_block(self, pcb):
         if self.enough_space_for(program):
             if self.exists_block_with_space(program):
                 block_to_use = self._policy.find_block(self._free_blocks)
