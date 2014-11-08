@@ -12,13 +12,12 @@ class ContinuousAssignment:
         self._policy = policy
 
     def create_new_block(self, pcb):
-        if self.enough_space_for(program):
-            if self.exists_block_with_space(program):
+            if self.exists_block_with_space(p):
                 block_to_use = self._policy.find_block(self._free_blocks)
                 block_to_use.setUsed()
                 self._free_blocks.remove(block_to_use)
-                self.new_block_end_index = program.amount_of_instructions() - 1
-                self.new_block = Block(0, 0, self.new_block_end_index)
+                new_block_end_index = pcb.amount_of_instructions() - 1
+                new_block = Block(0, 0, new_block_end_index)
                 self.increase_blocks_ids()
                 self._blocks[0].changeStartIndex(self.new_block_end_index + 1)
                 self._blocks[0].changePreviousBlock_double(self.new_block)
@@ -27,8 +26,6 @@ class ContinuousAssignment:
                 self.update_free_blocks()
             else:
                 self.compact()
-        else:
-            raise OutOfMemory("You don't have free space to load your program in memory.")
 
     ''' ¿Es necesario o alcanza con solo mirar los bloques?'''
     def enough_space_for(self, program):

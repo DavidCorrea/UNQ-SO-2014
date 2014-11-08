@@ -6,7 +6,7 @@ class Folder:
     def __init__(self, address):
         self._address = '/'
         self._files = []
-        self._childrens = []
+        self._childs = []
 
     def new_file(self, file):
         self._files.append(file)
@@ -22,7 +22,7 @@ class Folder:
         return self._files
 
     def get_folders(self):
-        return self._childrens
+        return self._childs
 
 
 class File:
