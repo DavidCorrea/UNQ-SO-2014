@@ -30,6 +30,9 @@ class PCB:
         elif self._priority == 2 :
             self._priority = PCBPriorities().getPriorities().HIGH
 
+    def get_amount_of_instructions(self):
+        return self._amountInstructions
+
 '''
 class PCBStatus(Enum):
     new = "New"

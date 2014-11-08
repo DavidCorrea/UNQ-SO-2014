@@ -5,15 +5,9 @@ class Block:
         self._startIndex = startIndex
         self._endIndex = endIndex
         self._isFree = True
-        self._previousBlock = self
-        self._nextBlock = self
+        self._previousBlock = None
+        self._nextBlock = None
         self._size = endIndex - startIndex + 1
-
-    def __str__(self):
-        return "Block ID Number: " + self._id
-
-    def __cmp__(self, other):
-        return self._size > other.size()
 
     def changeStartIndex(self, newStartIndex):
         self._startIndex = newStartIndex
@@ -63,4 +57,10 @@ class Block:
 
     def increase_size(self, size):
         self._size += size
+
+    def get_id(self):
+        return self._id
+
+    def get_start_index(self):
+        return self._startIndex
 

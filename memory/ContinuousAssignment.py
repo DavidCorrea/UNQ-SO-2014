@@ -1,6 +1,4 @@
-from memory.Block import *
-from memory.OutOfMemory import *
-
+from BlockManager import *
 
 class ContinuousAssignment:
 
@@ -10,32 +8,27 @@ class ContinuousAssignment:
         self._blocks = [Block(0, 0, self._memory_last_index)]
         self._free_blocks = self._blocks
         self._policy = policy
+        self._blocks_manager = BlocksManager(self._blocks)
 
     def create_new_block(self, pcb):
             if self.exists_block_with_space(pcb):
-                block_to_use = self._policy.find_block(self._free_blocks)
-                block_to_use.setUsed()
-                self._free_blocks.remove(block_to_use)
-                new_block = Block(0, 0, pcb.amount_of_instructions() - 1)
-                self.increase_blocks_ids()
-                self._blocks[0].changeStartIndex(pcb.amount_of_instructions())
-                self._blocks[0].changePreviousBlock_double(self.new_block)
-                self._blocks[0].decrease_size(new_block.size())
-                self._blocks.insert(0, new_block)
+                block_to_use = self._policy.find_block(self._free_blocks, pcb)
+                self._blocks_manager.divide_block(pcb, block_to_use)
                 self.update_free_blocks()
             else:
                 self.compact()
 
+    # TO DO.
+    def set_block_to_free(self, pcb):
+        pass
+        # pcb.get_assigned_block().setFree();
+
     def exists_block_with_space(self, pcb):
         result = False
         for block in self._blocks:
-            if block.isFree() & (block.size() >= pcb.amount_of_instructions()):
+            if block.isFree() & (block.size() >= pcb.get_amount_of_instructions()):
                 result = True
         return result
-
-    def increase_blocks_ids(self):
-        for block in self._blocks:
-            block.increaseId()
 
     def compact(self):
         return "Not yet implemented"

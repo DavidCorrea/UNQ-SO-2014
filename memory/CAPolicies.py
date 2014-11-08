@@ -5,8 +5,9 @@ class WorstFit:
     def __init__(self):
         self
 
-    def find_block(self, free_blocks):
-        return sorted(free_blocks, key=self.getKey())[0]
+    def find_block(self, free_blocks, pcb):
+        blocks_to_sort = filter(lambda x: x.size() >= pcb.get_amount_of_instructions(), free_blocks)
+        return sorted(blocks_to_sort, key=(lambda x: self.get_key(x)))[-1]
 
     def get_key(self, block):
         return block.size()
@@ -17,9 +18,9 @@ class BestFit:
     def __init__(self):
         self
 
-    def find_block(self, free_blocks, program):
-        blocks = filter((lambda x: x.size() >= program.amount_of_instructions()), free_blocks)
-        return sorted(blocks, key=self.getKey(), reverse=True)[0]
+    def find_block(self, free_blocks, pcb):
+        blocks = filter((lambda x: x.size() >= pcb.get_amount_of_instructions()), free_blocks)
+        return sorted(blocks, key=(lambda x: self.get_key(x)))[0]
 
     def get_key(self, block):
         return block.size()
@@ -30,5 +31,5 @@ class FirstFit:
     def __init__(self):
         self
 
-    def find_block(self, free_blocks, program):
-        return next(filter((lambda x: x.size() >= program.amount_of_instructions()), free_blocks), None)
+    def find_block(self, free_blocks, pcb):
+        return filter(lambda x: x.size() >= pcb.get_amount_of_instructions(), free_blocks)[0]
