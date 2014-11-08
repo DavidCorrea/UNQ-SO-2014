@@ -5,7 +5,7 @@ from BlockCreator import *
 class Folder:
 
     def __init__(self, folder_name):
-        self._address = '/' + folder_name + '/'
+        self._address = folder_name
         self._files = []
         self._siblings = []
 
@@ -16,7 +16,7 @@ class Folder:
         self._files.append(new_file)
 
     def new_folder(self, folder_name):
-        folder = Folder(self._address + folder_name + "/")
+        folder = Folder(self._address + "/" + folder_name + "/")
         self._siblings.append(folder)
 
     def get_file(self, file_name):
@@ -24,8 +24,9 @@ class Folder:
         return filtered[0]
 
     def get_folder(self, folder_name):
-        filtered = filter(lambda f: f.get_name is folder_name, self._siblings)
-        return filtered[0]
+        folder_to_search = self._address + "/" + folder_name + "/"
+        return (filter(lambda f: f.get_name() == folder_to_search, self._siblings))[0]
+
 
     def get_files(self):
         return self._files

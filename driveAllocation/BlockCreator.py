@@ -6,7 +6,7 @@ __author__ = 'robot'
 class BlockCreator:
 
     def __init__(self):
-        pass
+        self
 
     def convert_into_blocks(self, instructions):
         return map(lambda b: DiskBlock(b), self.split_into_blocks(instructions))

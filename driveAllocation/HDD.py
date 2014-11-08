@@ -22,7 +22,8 @@ class HDD:
         try:
             result = self._directory
             for d in directories:
-                result = result.get_folder(d)
+                if d != "root":
+                    result = result.get_folder(d)
             result.new_file(File(program.name, program.get_instructions))
         except IndexError:
             "No existe el directorio, este debe existir para que agregue el programa"
