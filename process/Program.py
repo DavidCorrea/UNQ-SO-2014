@@ -9,13 +9,13 @@ class Program:
         self._instructions = instructions
         self._name = name
 
-    def getInstructions(self):
+    def get_instructions(self):
         return self._instructions
 
     def name(self):
         return self._name
 
-    def addInstruction(self, instruction):
+    def add_instruction(self, instruction):
         self._instructions.append(instruction)
 
     def amount_of_instructions(self):
