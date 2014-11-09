@@ -4,7 +4,7 @@ from directoryTree import *
 class HDD:
 
     def __init__(self):
-        self._directory = Folder("root")
+        self._directory = Folder(None, "root")
 
     def get_program(self, program_route, file_name):
         directories = program_route[1:-1].split("/")
@@ -22,12 +22,21 @@ class HDD:
         try:
             result = self._directory
             for d in directories:
-                if d != "root":
-                    result = result.get_folder(d)
-            result.new_file(File(program.name, program.get_instructions))
+                result = result.get_folder(d)
+            result.new_file(File(program.name(), program.get_instructions()))
         except IndexError:
             "No existe el directorio, este debe existir para que agregue el programa"
 
-    def add_folder(self, folder_name):
-        self._directory.new_folder(folder_name)
+    def add_folder(self, folder_directory):
+        directories = folder_directory[1:-1].split("/")
+        current_folder = self._directory
+        for d in directories:
+            found = False
+            while not found:
+                try:
+                    current_folder = current_folder.get_folder(d)
+                except IndexError:
+                    current_folder.new_folder(d)
+                finally:
+                    found = True
 
