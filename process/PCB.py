@@ -7,7 +7,14 @@ class PCB:
         self._amountInstructions = amountInstructions
         self._pc = startM
         self._priority = None
+        self._block = None
         #self._status = PCBStatus.new
+
+    def set_block(self, block):
+        self._block = block
+
+    def get_block(self):
+        return self._block
 
     def __str__(self):
         return 'ID: ' + self._id

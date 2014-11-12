@@ -21,3 +21,7 @@ class Memory:
             if cell == None:
              self.free_space += 1
         return self.free_space
+
+    def compact(self):
+        used_cells = filter(lambda x: not x is None, self._cells)
+        self._cells = used_cells + [None] * (len(self._cells) - len(used_cells))

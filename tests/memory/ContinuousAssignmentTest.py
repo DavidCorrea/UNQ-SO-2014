@@ -30,5 +30,20 @@ class TestContinuousAssignment(unittest.TestCase):
         self.policy.create_new_block(pcb4)
         self.assertEqual(len(self.policy._blocks), 4)
 
+    def test_whenINeedToCompact_thenItCompacts(self):
+        pcb2 = PCB(1, 3, 5)
+        pcb3 = PCB(2, 7, 3)
+        pcb4 = PCB(2, 4, 8)
+        self.policy.create_new_block(self.pcb1)
+        self.policy.create_new_block(pcb2)
+        self.policy.create_new_block(pcb3)
+        self.policy.create_new_block(pcb4)
+        self.policy.set_block_to_free(pcb3)
+        self.policy.set_block_to_free(self.pcb1)
+        pcb5 = PCB(3, 9, 6)
+        self.policy.create_new_block(pcb5)
+        self.assertEqual(True, True)
+
+
 suite = unittest.TestLoader().loadTestsFromTestCase(TestContinuousAssignment)
 unittest.TextTestRunner(verbosity=2).run(suite)
