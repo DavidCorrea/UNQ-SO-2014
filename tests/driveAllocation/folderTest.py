@@ -1,5 +1,5 @@
 import unittest
-from driveAllocation.directoryTree import *
+from driveAllocation.FileSystem import *
 
 
 class FolderTest(unittest.TestCase):

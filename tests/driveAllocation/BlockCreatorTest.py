@@ -1,6 +1,6 @@
 __author__ = 'robot'
 import unittest
-from driveAllocation.BlockCreator import *
+from driveAllocation.DriveSaver import *
 
 
 class BlockCreatorTest(unittest.TestCase):

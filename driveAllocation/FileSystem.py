@@ -1,5 +1,4 @@
-__author__ = 'robot'
-from BlockCreator import *
+from DriveSaver import *
 
 
 class Folder:
@@ -10,8 +9,9 @@ class Folder:
         self._files = []
         self._siblings = []
 
-    def set_absolute_address(self, parent, folder_name):
-        if parent != None:
+    @staticmethod
+    def set_absolute_address(parent, folder_name):
+        if not parent is None:
             return parent.get_absolute_address() + "/" + folder_name
         # Root case.
         else:
@@ -45,19 +45,13 @@ class Folder:
 
 class File:
 
-    def __init__(self, name, instructions):
+    def __init__(self, name, program):
         self._name = name
-        self._blockCreator = BlockCreator()
-        self._diskBlocks = self._blockCreator.convert_into_blocks(instructions)
+        self._DriveSaver = DriveSaver()
+        self._navigator = self._DriveSaver.save_to_hdd(program.get_instructions())
 
     def get_name(self):
         return self._name
 
-    def get_disk_block_size(self):
-        return len(self._diskBlocks)
-
-    def get_disk_block(self, index):
-        try:
-            return self._diskBlocks[index]
-        except IndexError:
-            print("Lo siento, no tengo ese bloque")
+    def fetch_blocks(self):
+        return self._navigator.fetch_blocks()
