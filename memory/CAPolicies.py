@@ -32,4 +32,10 @@ class FirstFit:
         self
 
     def find_block(self, free_blocks, pcb):
-        return filter(lambda x: x.size() >= pcb.get_amount_of_instructions(), free_blocks)[0]
+        #return filter(lambda x: x.size() >= pcb.get_amount_of_instructions(), free_blocks)[0]
+        result = filter(lambda x: x.size() >= pcb.get_amount_of_instructions(), free_blocks)
+        return result[0]
+    #Lo escribi asi para que se vea mejor, y puedan debuggear mas comodos.
+    #Que pasaria si el filter no encuentra nada? Si esto no es normal, arreglenlo.
+    #Rompo a proposito aca para que vean este comentario.
+    BLEH
