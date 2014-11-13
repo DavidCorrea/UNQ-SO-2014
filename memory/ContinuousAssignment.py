@@ -14,11 +14,13 @@ class ContinuousAssignment:
             if self.exists_block_with_space(pcb):
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
                 self._blocks_manager.divide_block(pcb, block_to_use)
-                pcb.set_block(block_to_use)
                 self.update_free_blocks()
             else:
                 self._memory.compact()
                 self.compact()
+                self.update_free_blocks()
+                self.create_new_block(pcb)
+
 
     @staticmethod
     def set_block_to_free(pcb):
@@ -33,21 +35,23 @@ class ContinuousAssignment:
 
     def compact(self):
         used_blocks = filter(lambda x: not x.isFree(), self._blocks)
-        start_index_free_block = sum(map(lambda x: x.size(), used_blocks)) + 1
+        start_index_free_block = sum(map(lambda x: x.size(), used_blocks))
         complete_free_block = Block(0, start_index_free_block, self._memory_last_index)
-        self._blocks = used_blocks.append(complete_free_block)
-        self.update_index()
+        used_blocks.append(complete_free_block) # We need to do this in two lines. Otherwise, it fails for some reason.
+        self._blocks = used_blocks
+        self.update_index() # Fix bug.
         self.update_references()
         self.update_ids()
 
     def update_ids(self):
-        [block.set_id(id_block) for (block, id_block) in zip(self._blocks, [0..len(self._blocks)])]
+        result = [block.set_id(block_id) for (block, block_id) in zip(self._blocks, range(0, len(self._blocks)))]
+
 
     def update_references(self):
-        self._blocks[0].changePreviousBlock(None)
         [sndBlock.changePreviousBlock_double(fstBlock) for (fstBlock, sndBlock) in zip(self._blocks[::1], self._blocks[1::1])]
+        [sndBlock.changeNextBlock_double(fstBlock) for (fstBlock, sndBlock) in zip(self._blocks[::-1], self._blocks[-2::-1])]
+        self._blocks[0].changePreviousBlock(None)
         self._blocks[-1].changeNextBlock(None)
-        [sndBlock.changePreviousBlock_double(fstBlock) for (fstBlock, sndBlock) in zip(self._blocks[::-1], self._blocks[-2::-1])]
 
     def update_index(self):
         next_index = 0

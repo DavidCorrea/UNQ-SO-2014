@@ -64,3 +64,6 @@ class Block:
     def get_start_index(self):
         return self._startIndex
 
+    def set_id(self, new_id):
+        self._id = new_id
+
