@@ -3,10 +3,10 @@ from Block import *
 
 class BlocksManager:
 
-    def __init__(self, blocks):
-        self._blocks = blocks
+    def __init__(self):
+        pass
 
-    def divide_block(self, pcb, block_to_use):
+    def divide_block(self, pcb, block_to_use, blocks):
         if self.pcb_has_same_size_than_block(pcb, block_to_use):
             block_to_use.setUsed()
             pcb.set_block(block_to_use)
@@ -15,7 +15,7 @@ class BlocksManager:
             new_block.setUsed()
             self.update_blocks_references(block_to_use, new_block)
             block_to_use.decrease_size(new_block.size())
-            self._blocks.insert(block_to_use.get_id(), new_block)
+            blocks.insert(block_to_use.get_id(), new_block)
             self.update_blocks_ids_from(block_to_use)
             pcb.set_block(new_block)
 

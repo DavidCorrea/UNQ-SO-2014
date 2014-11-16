@@ -8,19 +8,18 @@ class ContinuousAssignment:
         self._blocks = [Block(0, 0, self._memory_last_index)]
         self._free_blocks = self._blocks
         self._policy = policy
-        self._blocks_manager = BlocksManager(self._blocks)
+        self._blocks_manager = BlocksManager()
 
     def create_new_block(self, pcb):
             if self.exists_block_with_space(pcb):
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
-                self._blocks_manager.divide_block(pcb, block_to_use)
+                self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
                 self.update_free_blocks()
             else:
                 self._memory.compact()
                 self.compact()
                 self.update_free_blocks()
                 self.create_new_block(pcb)
-
 
     @staticmethod
     def set_block_to_free(pcb):
@@ -39,13 +38,12 @@ class ContinuousAssignment:
         complete_free_block = Block(0, start_index_free_block, self._memory_last_index)
         used_blocks.append(complete_free_block) # We need to do this in two lines. Otherwise, it fails for some reason.
         self._blocks = used_blocks
-        self.update_index() # Fix bug.
+        self.update_index()
         self.update_references()
         self.update_ids()
 
     def update_ids(self):
         result = [block.set_id(block_id) for (block, block_id) in zip(self._blocks, range(0, len(self._blocks)))]
-
 
     def update_references(self):
         [sndBlock.changePreviousBlock_double(fstBlock) for (fstBlock, sndBlock) in zip(self._blocks[::1], self._blocks[1::1])]

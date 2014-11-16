@@ -43,7 +43,7 @@ class TestContinuousAssignment(unittest.TestCase):
         self.policy.set_block_to_free(pcb1)
         pcb5 = PCB(3, 9, 6)
         self.policy.create_new_block(pcb5)
-        self.assertEqual(len(self.policy._blocks), 3)
+        self.assertEqual(len(self.policy._blocks), 4)
 
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestContinuousAssignment)
