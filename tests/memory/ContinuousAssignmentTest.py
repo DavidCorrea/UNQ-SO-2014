@@ -1,8 +1,9 @@
 import unittest
+
 from memory.Memory import *
-from memory.ContinuousAssignment import *
-from memory.CAPolicies import *
+from memory.continuousAssignment.CAPolicies import *
 from process.PCB import *
+
 
 class TestContinuousAssignment(unittest.TestCase):
 

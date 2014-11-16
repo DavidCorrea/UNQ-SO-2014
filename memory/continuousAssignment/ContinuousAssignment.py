@@ -1,4 +1,4 @@
-from BlockManager import *
+from memory.continuousAssignment.BlockManager import *
 
 class ContinuousAssignment:
 

@@ -1,6 +1,6 @@
 import unittest
 
-from memory.Block import *
+from memory.continuousAssignment.Block import *
 
 
 class TestBlock(unittest.TestCase):

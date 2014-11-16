@@ -1,5 +1,5 @@
 __author__ = 'David'
-from Block import *
+from memory.continuousAssignment.Block import *
 
 class BlocksManager:
 

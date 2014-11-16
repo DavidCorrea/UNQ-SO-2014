@@ -1,9 +1,11 @@
 __author__ = 'David'
 
 import unittest
+
 from memory.CAPolicies import *
 from process.PCB import *
-from memory.Block import *
+from memory.continuousAssignment.Block import *
+
 
 class TestCAPolicies(unittest.TestCase):
 
