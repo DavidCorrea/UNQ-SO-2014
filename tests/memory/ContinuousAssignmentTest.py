@@ -1,6 +1,7 @@
 import unittest
 
 from memory.Memory import *
+from memory.continuousAssignment.ContinuousAssignment import *
 from memory.continuousAssignment.CAPolicies import *
 from process.PCB import *
 

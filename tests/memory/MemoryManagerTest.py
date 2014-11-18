@@ -1,7 +1,7 @@
 from memory.Memory import *
 from memory.MemoryManager import *
 from process.Program import *
-
+from memory.continuousAssignment.CAPolicies import *
 
 class MemoryManagerTest(unittest.TestCase):
 
@@ -16,6 +16,7 @@ class MemoryManagerTest(unittest.TestCase):
         self.program2 = Program(self.instructionList2, "Pituto")
         self.memory = Memory(1)
         self.memoryManager = MemoryManager(self.memory)
+        self.memoryManager.set_as_CA(FirstFit())
 
     def test_whenTheMemoryManagerAddsTwoProgramsAndIAskForThe6thPosition_thenIShouldGetException(self):
         self.memoryManager.write(self.program1)

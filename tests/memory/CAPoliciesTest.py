@@ -2,7 +2,7 @@ __author__ = 'David'
 
 import unittest
 
-from memory.CAPolicies import *
+from memory.continuousAssignment.CAPolicies import *
 from process.PCB import *
 from memory.continuousAssignment.Block import *
 

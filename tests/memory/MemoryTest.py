@@ -39,18 +39,3 @@ class MemoryTest(unittest.TestCase):
 
 suite = unittest.TestLoader().loadTestsFromTestCase(MemoryTest)
 unittest.TextTestRunner(verbosity=2).run(suite)
-
-'''
-    def test_WhenIAskForAPosition_ThenIGetItsValue(self):
-        self.assertEquals(self.memory.get(3), None)
-
-    def test_WhenIPutAValueIntoAPosition_ThenICanGetIt(self):
-        self.memory.put(0, self.instruction1)
-        self.assertEqual(self.memory.get(0), self.instruction1)
-
-    def test_whenISetThreeInstructions_thenIGetTwoFreeSpaces(self):
-        self.memory.put(0, self.instruction1)
-        self.memory.put(1, self.instruction2)
-        self.memory.put(2, self.instruction3)
-        self.assertEqual(self.memory.get_free_space(), 17)
-'''
