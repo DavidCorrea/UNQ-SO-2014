@@ -1,14 +1,13 @@
 __author__ = 'David'
 
+
 class Frame:
 
-    def __init__(self, index, cells):
+    def __init__(self, index, starting_index, ending_index):
         self._index = index
-        self._cells = cells
+        self._starting_index = starting_index
+        self._ending_index = ending_index
         self._in_use = False
-
-    def get_cells(self):
-        return self._cells
 
     def is_in_use(self):
         return self._in_use

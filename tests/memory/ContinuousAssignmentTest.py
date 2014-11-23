@@ -19,17 +19,17 @@ class TestContinuousAssignment(unittest.TestCase):
         self.assertEqual(self.policy._blocks[0].size(), 20)
 
     def test_whenIAddANewPCB_thenItHasTwoBlocks(self):
-        self.policy.create_new_block(self.pcb1)
+        self.policy.assign_to_memory(self.pcb1)
         self.assertEqual(len(self.policy._blocks), 2)
 
     def test_whenIAddManyPCBs_thenItHasThatManyBlocks(self):
         pcb2 = PCB(1, 3, 5)
         pcb3 = PCB(2, 7, 3)
         pcb4 = PCB(2, 4, 8)
-        self.policy.create_new_block(self.pcb1)
-        self.policy.create_new_block(pcb2)
-        self.policy.create_new_block(pcb3)
-        self.policy.create_new_block(pcb4)
+        self.policy.assign_to_memory(self.pcb1)
+        self.policy.assign_to_memory(pcb2)
+        self.policy.assign_to_memory(pcb3)
+        self.policy.assign_to_memory(pcb4)
         self.assertEqual(len(self.policy._blocks), 4)
 
     def test_whenINeedToCompact_thenItCompacts(self):
@@ -37,14 +37,14 @@ class TestContinuousAssignment(unittest.TestCase):
         pcb2 = PCB(1, 3, 5)
         pcb3 = PCB(2, 7, 3)
         pcb4 = PCB(2, 4, 8)
-        self.policy.create_new_block(pcb1)
-        self.policy.create_new_block(pcb2)
-        self.policy.create_new_block(pcb3)
-        self.policy.create_new_block(pcb4)
+        self.policy.assign_to_memory(pcb1)
+        self.policy.assign_to_memory(pcb2)
+        self.policy.assign_to_memory(pcb3)
+        self.policy.assign_to_memory(pcb4)
         self.policy.set_block_to_free(pcb3)
         self.policy.set_block_to_free(pcb1)
         pcb5 = PCB(3, 9, 6)
-        self.policy.create_new_block(pcb5)
+        self.policy.assign_to_memory(pcb5)
         self.assertEqual(len(self.policy._blocks), 4)
 
 

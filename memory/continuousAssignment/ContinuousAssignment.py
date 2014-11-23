@@ -10,7 +10,7 @@ class ContinuousAssignment:
         self._policy = policy
         self._blocks_manager = BlocksManager()
 
-    def create_new_block(self, pcb):
+    def assign_to_memory(self, pcb):
             if self.exists_block_with_space(pcb):
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
                 self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)

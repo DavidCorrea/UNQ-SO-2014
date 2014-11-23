@@ -7,7 +7,7 @@ class Navigator:
     def __init__(self, sector, block_numbers):
         self._sector = sector
         self._block_numbers = block_numbers
-        self._hdd = HDD()
+        self._hdd = HDD(10)
 
     def get_sector(self):
         return self._sector

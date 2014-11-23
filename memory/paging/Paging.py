@@ -1,5 +1,7 @@
 __author__ = 'David'
 from Frame import *
+from Table import *
+
 
 class Paging:
 
@@ -9,14 +11,18 @@ class Paging:
         self._frames = []
         self._free_frames = []
         self.generate_frames(instructions_per_frame)
+        self._table = Table()
 
     def get_amount_of_frames(self):
-        return len(self._frames) # Done this way to make sure there are pages created.
+        return len(self._frames)
 
     def generate_frames(self, instructions_per_frame):
         can_create = self._memory_size % instructions_per_frame == 0
         if can_create:
             index = 0
-            for split in xrange(0, len(self._memory._cells), instructions_per_frame):
-                self._frames.append(Frame(index, self._memory._cells.keys()[split:split+instructions_per_frame]))
+            for split in xrange(0, self._memory_size, instructions_per_frame):
+                self._frames.append(Frame(index, split, split + instructions_per_frame - 1))
                 index += 1
+
+    def assign_to_memory(self, pcb):
+        self._table.

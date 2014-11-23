@@ -8,7 +8,7 @@ __author__ = 'robot'
 class DriveSaver:
 
     def __init__(self):
-        self._hdd = HDD()
+        self._hdd = HDD(10)
 
     def convert_into_blocks(self, instructions):
         return map(lambda b: DiskBlock(b), self.split_into_blocks(instructions))
@@ -19,5 +19,5 @@ class DriveSaver:
 
     def save_to_hdd(self, instructions):
         sector = randint(1, self._hdd.sectors_size())
-        block_index_list = [map(self._hdd.add_block(sector), self.convert_into_blocks(instructions))]
+        block_index_list = map(lambda inst: self._hdd.add_block(sector, inst), self.convert_into_blocks(instructions))
         return Navigator(sector, block_index_list)
