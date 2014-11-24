@@ -19,7 +19,7 @@ class ContinuousAssignment:
                 self._memory.compact()
                 self.compact()
                 self.update_free_blocks()
-                self.create_new_block(pcb)
+                self.assign_to_memory(pcb)
 
     @staticmethod
     def set_block_to_free(pcb):
