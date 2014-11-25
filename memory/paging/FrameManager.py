@@ -10,11 +10,11 @@ class FrameManager():
         self._table = Table(self._frames)
 
     def update_free_frames(self):
-        return filter(lambda frame : frame.is_in_use(), self._frames)
+        return filter(lambda frame : not frame.in_use(), self._frames)
 
     def assign_page_to_frame(self, pcb):
         pcb_pages = pcb.get_info_holder().get_pages()
-        page = filter(lambda page : page.has_been_used(), pcb_pages)[0]
+        page = filter(lambda page : page.has_been_used(), pcb_pages)[0] # This should change.
         if self.free_frame_available():
             self._table.put_page(page)
         else:
@@ -26,6 +26,6 @@ class FrameManager():
 
     def empty_youngest_frame(self):
         youngest = min(self._frames, key=lambda x : x.get_life())
+        # We should get the Page here and save it into the Swap Disk.
+        # HDD.get_swap_disk().save(youngest.get_page())
         youngest.set_not_in_use()
-
-

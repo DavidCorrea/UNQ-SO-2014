@@ -7,7 +7,7 @@ from process.PCB import *
 
 class PagingTest(unittest.TestCase):
 
-    #Arrange
+    # Arrange
     def setUp(self):
         self.memory = Memory(50)
         self.policy = Paging(self.memory, 10)
@@ -18,7 +18,7 @@ class PagingTest(unittest.TestCase):
 
     def test_WhenIGetAPCBAndIAssignItToMemory_ThenPagesAreCreated(self):
         self.policy.assign_to_memory(self.pcb1)
-        self.assertTrue(True, True)
+        # Check Implementation First before Ending Test.
 
 suite = unittest.TestLoader().loadTestsFromTestCase(PagingTest)
 unittest.TextTestRunner(verbosity=2).run(suite)

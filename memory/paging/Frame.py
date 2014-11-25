@@ -24,6 +24,9 @@ class Frame:
         self._page = page
         self.set_in_use()
 
+    def get_page(self):
+        return self._page
+
     def remove_page(self):
         self._page = None
 

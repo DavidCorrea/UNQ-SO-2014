@@ -14,3 +14,12 @@ class Page:
 
     def has_been_used(self):
         return self._used
+
+    def get_starting_index(self):
+        return self._starting_index
+
+    def get_ending_index(self):
+        return self._ending_index
+
+    def get_amount_of_instructions(self):
+        return self._amount_of_instructions
