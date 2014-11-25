@@ -23,7 +23,7 @@ class ContinuousAssignment:
 
     @staticmethod
     def set_block_to_free(pcb):
-        pcb.get_block().setFree()
+        pcb.get_info_holder().get_block().setFree()
 
     def exists_block_with_space(self, pcb):
         result = False

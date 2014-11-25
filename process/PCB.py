@@ -1,3 +1,4 @@
+from PCBInfoHolder import *
 
 class PCB:
 
@@ -7,14 +8,11 @@ class PCB:
         self._amountInstructions = amountInstructions
         self._pc = startM
         self._priority = None
-        self._block = None
-        #self._status = PCBStatus.new
+        self._info_holder = PCBInfoHolder()
+        # self._status = PCBStatus.new
 
-    def set_block(self, block):
-        self._block = block
-
-    def get_block(self):
-        return self._block
+    def get_info_holder(self):
+        return self._info_holder
 
     def __str__(self):
         return 'ID: ' + self._id

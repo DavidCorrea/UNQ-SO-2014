@@ -11,7 +11,7 @@ class Frame:
         self._page = None
         self._life = 0
 
-    def is_in_use(self):
+    def in_use(self):
         return self._in_use
 
     def set_in_use(self):
