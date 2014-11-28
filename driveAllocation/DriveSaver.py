@@ -7,8 +7,8 @@ __author__ = 'robot'
 
 class DriveSaver:
 
-    def __init__(self):
-        self._hdd = HDD(10)
+    def __init__(self, hdd):
+        self._hdd = hdd
 
     def convert_into_blocks(self, instructions):
         return map(lambda b: DiskBlock(b), self.split_into_blocks(instructions))

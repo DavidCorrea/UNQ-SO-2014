@@ -23,11 +23,13 @@ class Frame:
     def set_page(self, page):
         self._page = page
         self.set_in_use()
+        page.set_assign()
 
     def get_page(self):
         return self._page
 
     def remove_page(self):
+        self._page.set_unassigned()
         self._page = None
 
     def increase_life(self):

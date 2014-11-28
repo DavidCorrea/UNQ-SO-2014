@@ -8,7 +8,7 @@ from process.PCB import *
 
 class TestContinuousAssignment(unittest.TestCase):
 
-    #Arrange
+    # Arrange
     def setUp(self):
         self.pcb1 = PCB(0, 0, 4)
         self.caPolicy = FirstFit()

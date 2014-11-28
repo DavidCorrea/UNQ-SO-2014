@@ -1,5 +1,6 @@
 from memory.continuousAssignment.BlockManager import *
 
+
 class ContinuousAssignment:
 
     def __init__(self, memory, policy):

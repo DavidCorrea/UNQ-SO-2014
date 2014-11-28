@@ -10,4 +10,4 @@ class DiskBlock:
         return len(self._instructions)
 
     def get_data(self, index):
-       return self._instructions[index]
+        return self._instructions[index]
