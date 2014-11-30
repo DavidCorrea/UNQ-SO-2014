@@ -11,13 +11,11 @@ class MemoryManager:
         self._policy = None
         self._memory_free_space = self._memory.get_free_space()
 
-    def write(self, program):
-        begin = self._next_index
-        for i in program.getInstructions():
-            # self._memory.put(self._next_index, i.text())
-            self._memory.put(i.text())
-            self._next_index += 1
-        return begin
+    def write(self, pcb, policy_result):
+        # Pcb should get the instruction while policy_result iterates
+        # for index in range(policy_result.get_start_index(), policy_result.get_end_index()):
+        # TO DO
+        pass
 
     def read(self, mem_dir):
         try:
@@ -26,7 +24,8 @@ class MemoryManager:
             print "Implementar"
 
     def assign_to_memory(self, pcb):
-        self._policy.assign_to_memory(pcb)
+        policy_result = self._policy.assign_to_memory(pcb)
+        self.write(pcb, policy_result)
 
     def set_as_ca(self, ca_policy):
         self._policy = ContinuousAssignment(self._memory, ca_policy)

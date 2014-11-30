@@ -1,30 +1,20 @@
 __author__ = 'David'
 
-from Page import *
-
+from memory.PolicyResult import *
 
 class Table():
 
-    def __init__(self, frames):
-        self._page_frame = frames
-        self._free_frames = self.update_free_frames()
+    def __init__(self):
+        pass
 
-    def update_free_frames(self):
-        return filter(lambda frame: not frame.in_use(), self._page_frame)
-
-    def put_page(self, page):
-        frame_to_use = next(filter(lambda x: not x.in_use(), self._page_frame))
-        self.update_frames_life(frame_to_use)
+    def put_page(self, page, frames, free_frames):
+        frame_to_use = next(iter(free_frames))
+        self.update_frames_life(frame_to_use, frames)
         frame_to_use.set_page(page)
+        return PolicyResult(frame_to_use.get_starting_index(), frame_to_use.get_ending_index())
 
-    def update_frames_life(self, frame):
-        frames_to_update = filter(lambda x: x is not frame, self._page_frame)
+    def update_frames_life(self, frame, frames):
+        frames_to_update = filter(lambda x: x is not frame, frames)
         frame.reset_life()
         for frm in frames_to_update:
             frm.increase_life()
-
-    def get_free_frames(self):
-        return self._free_frames
-
-    def get_frames(self):
-        return self._page_frame

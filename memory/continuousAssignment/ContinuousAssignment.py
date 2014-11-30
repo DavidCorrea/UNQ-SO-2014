@@ -1,4 +1,5 @@
 from memory.continuousAssignment.BlockManager import *
+from memory.PolicyResult import *
 
 
 class ContinuousAssignment:
@@ -16,6 +17,7 @@ class ContinuousAssignment:
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
                 self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
                 self.update_free_blocks()
+                return PolicyResult(block_to_use.get_start_index(), block_to_use.get_end_index())
             else:
                 self._memory.compact()
                 self.compact()

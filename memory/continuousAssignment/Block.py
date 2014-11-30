@@ -67,3 +67,6 @@ class Block:
     def set_id(self, new_id):
         self._id = new_id
 
+    def get_end_index(self):
+        return self._endIndex
+

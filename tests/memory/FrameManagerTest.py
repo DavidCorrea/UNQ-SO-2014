@@ -17,12 +17,50 @@ class FrameManagerTest(unittest.TestCase):
         self.frames = [self.frame1, self.frame2, self.frame3, self.frame4]
         self.frame_manager = FrameManager(self.frames)
         self.page_creator = PageCreator()
-        self.pcb = PCB(0, 0, 20)
-
-    def test_whenICreatePagesForPCB_ThenTheInfoHolderHasThemAsItShould(self):
+        self.pcb = PCB(0, 0, 30)
         self.page_creator.create(self.pcb, 5)
+
+    def test_whenIAssignAPCBTheFirstTime_ThenFrameManagerUsesTheFirstFrame(self):
+        # Pages
+        first_frame = self.frame_manager.get_frames()[0]
+
         self.frame_manager.assign_page_to_frame(self.pcb)
-        # Check Implementation First before Ending Test.
+        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
+        self.assertEquals(first_frame.get_page(), first_pcb_page)
+
+    def test_whenTheFirstPCBPageIsUsedAndPCBIsAssigned_ThenFrameManagerUsesTheSecondFrame(self):
+        # Pages
+        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
+        second_pcb_page =self.pcb.get_info_holder().get_pages()[1]
+
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        first_pcb_page.set_used()
+
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        second_frame = self.frame_manager.get_frames()[1]
+        self.assertEquals(second_frame.get_page(), second_pcb_page)
+
+    def test_whenAllFramesAreUsedAndPCBAssignsOneMorePage_ThenTheYoungestFrameGetsEmpty(self):
+        # Pages
+        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
+        second_pcb_page =self.pcb.get_info_holder().get_pages()[1]
+        third_pcb_page = self.pcb.get_info_holder().get_pages()[2]
+        forth_pcb_page = self.pcb.get_info_holder().get_pages()[3]
+        fifth_pcb_page = self.pcb.get_info_holder().get_pages()[4]
+
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        first_pcb_page.set_used()
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        second_pcb_page.set_used()
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        third_pcb_page.set_used()
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        forth_pcb_page.set_used()
+
+        forth_frame = self.frame_manager.get_frames()[3]
+
+        self.frame_manager.assign_page_to_frame(self.pcb)
+        self.assertEqual(forth_frame.get_page(), fifth_pcb_page)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(FrameManagerTest)
 unittest.TextTestRunner(verbosity=2).run(suite)

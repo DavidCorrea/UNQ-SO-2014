@@ -1,5 +1,6 @@
 __author__ = 'David'
 
+
 class PCBInfoHolder:
 
     def __init__(self):
@@ -17,3 +18,6 @@ class PCBInfoHolder:
 
     def get_pages(self):
         return self._pages
+
+    def has_pages(self):
+        return len(self._pages) > 0
