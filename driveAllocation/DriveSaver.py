@@ -1,5 +1,4 @@
 from driveAllocation.DiskBlock import *
-from driveAllocation.HDD import HDD
 from random import randint
 from DriveNavigator import Navigator
 __author__ = 'robot'
@@ -20,4 +19,4 @@ class DriveSaver:
     def save_to_hdd(self, instructions):
         sector = randint(1, self._hdd.sectors_size())
         block_index_list = map(lambda inst: self._hdd.add_block(sector, inst), self.convert_into_blocks(instructions))
-        return Navigator(sector, block_index_list)
+        return Navigator(self._hdd, sector, block_index_list)

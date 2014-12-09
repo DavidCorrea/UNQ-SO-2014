@@ -3,7 +3,7 @@ __author__ = 'robot'
 
 class FileSystem:
 
-    def __init__(self,drive_saver, main_folder):
+    def __init__(self, drive_saver, main_folder):
         self._drive_saver = drive_saver
         self._current_directory = main_folder
 
@@ -19,3 +19,9 @@ class FileSystem:
 
     def add_file(self, file_name, program):
         self._current_directory.new_file(self._drive_saver, file_name, program)
+
+    def list_files(self):
+        return self._current_directory.get_files()
+
+    def get_current(self):
+        return self._current_directory
