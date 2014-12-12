@@ -11,21 +11,19 @@ class MemoryManager:
         self._policy = None
         self._memory_free_space = self._memory.get_free_space()
 
-    def write(self, pcb, policy_result):
-        # Pcb should get the instruction while policy_result iterates
-        # for index in range(policy_result.get_start_index(), policy_result.get_end_index()):
-        # TO DO
-        pass
+    def write(self, pcb):
+        policy_result = self._policy.assign_to_memory(pcb)
+        aux = policy_result.get_start_index()
+        instructions = pcb.get_instructions()
+        for inst in instructions:
+            self._memory.put(aux, inst)
+            aux += 1
 
     def read(self, mem_dir):
-        try:
-            return self._memory.get(mem_dir)
-        except IndexError:
-            print "Implementar"
+        return self._memory.get(mem_dir)
 
-    def assign_to_memory(self, pcb):
-        policy_result = self._policy.assign_to_memory(pcb)
-        self.write(pcb, policy_result)
+    def can_serve(self,pcb):
+        return self._memory_free_space >= pcb.get_amount_of_instructions()
 
     def set_as_ca(self, ca_policy):
         self._policy = ContinuousAssignment(self._memory, ca_policy)

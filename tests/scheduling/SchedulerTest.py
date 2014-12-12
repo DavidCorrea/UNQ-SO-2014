@@ -23,9 +23,9 @@ class TestScheduler(unittest.TestCase):
 
     def test_whenISetTheSchedulerPolicyAsPriority_thenIThePCBsAsThePriorityStates(self):
         self.scheduler.set_as_pq()
-        self.pcb1.setPriority(PCBPriorities().getPriorities().LOW)
-        self.pcb2.setPriority(PCBPriorities().getPriorities().MEDIUM)
-        self.pcb3.setPriority(PCBPriorities().getPriorities().HIGH)
+        self.pcb1.set_priority(PCBPriorities().getPriorities().LOW)
+        self.pcb2.set_priority(PCBPriorities().getPriorities().MEDIUM)
+        self.pcb3.set_priority(PCBPriorities().getPriorities().HIGH)
         self.scheduler.add(self.pcb1)
         self.scheduler.add(self.pcb2)
         self.scheduler.add(self.pcb3)

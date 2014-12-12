@@ -1,15 +1,13 @@
 from PCBInfoHolder import *
 
+
 class PCB:
 
-    def __init__(self, id, startM, amountInstructions):
-        self._id = id
-        self._startM = startM
-        self._amountInstructions = amountInstructions
-        self._pc = startM
+    def __init__(self, _id, amount_instructions, m_policy):
+        self._id = _id
+        self._amountInstructions = amount_instructions
         self._priority = None
-        self._info_holder = PCBInfoHolder()
-        # self._status = PCBStatus.new
+        self._info_holder = m_policy
 
     def get_info_holder(self):
         return self._info_holder
@@ -18,36 +16,27 @@ class PCB:
         return 'ID: ' + self._id
 
     def increment(self):
-        self._pc += 1
-
+        self._info_holder.increment()
     def get_pc(self):
-        return self._pc
+        return self._info_holder.current_mem_dir()
 
-    def set_priority(self, priority):
-        self._priority = priority
-
-    def has_finished(self):
-        return self._pc == (self._startM + self._amountInstructions)
-
-    def increase_priority(self):
-        if self._priority == 3 :
-            self._priority = PCBPriorities().getPriorities().MEDIUM
-        elif self._priority == 2 :
-            self._priority = PCBPriorities().getPriorities().HIGH
+    def get_instructions(self):
+        return self._info_holder.instructions()
 
     def get_amount_of_instructions(self):
         return self._amountInstructions
 
-'''
-class PCBStatus(Enum):
-    new = "New"
-    ready = "Ready"
-    busy = "Busy"
-    waiting = "Waiting"
-    running = "Running"
-    complete = "Complete"
-'''
+    def has_finished(self):
+        return self._info_holder.has_finished()
 
+    def set_priority(self, priority):
+        self._priority = priority
+
+    def increase_priority(self):
+        if self._priority == 3:
+            self._priority = PCBPriorities().getPriorities().MEDIUM
+        elif self._priority == 2:
+            self._priority = PCBPriorities().getPriorities().HIGH
 
 class PCBPriorities:
 

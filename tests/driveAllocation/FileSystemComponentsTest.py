@@ -18,10 +18,6 @@ class FileSystemComponentsTest(unittest.TestCase):
         self.folder.new_folder("mario")
         self.assertEqual(len(self.folder.get_folders()), 1)
 
-    def test_adding_a_file(self):
-        self.folder.new_file(self._hdd.get_drive_saver(), "mario", Program(range(0, 10), "mario") )
-        self.assertEqual(len(self.folder.get_files()), 1)
-
 
 suite = unittest.TestLoader().loadTestsFromTestCase(FileSystemComponentsTest)
 unittest.TextTestRunner(verbosity=2).run(suite)

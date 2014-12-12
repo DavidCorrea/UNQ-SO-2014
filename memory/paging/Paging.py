@@ -9,7 +9,7 @@ class Paging:
     def __init__(self, memory, instructions_per_frame):
         self._memory = memory
         self._instructions_per_frame = instructions_per_frame
-        self._memory_size = len(self._memory._cells)
+        self._memory_size = self._memory.size()
         self._frames = []
         self.generate_frames()
         self._frame_manager = FrameManager(self._frames)
@@ -27,7 +27,7 @@ class Paging:
                 index += 1
 
     def assign_to_memory(self, pcb):
-        if not pcb.get_info_holder().has_pages():
+        if not pcb.get_info_holder().is_holding():
             self._page_creator.create(pcb, self._instructions_per_frame)
         policy_result = self._frame_manager.assign_page_to_frame(pcb)
         return policy_result

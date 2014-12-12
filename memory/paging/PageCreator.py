@@ -16,10 +16,12 @@ class PageCreator():
             divided_items.append(items[i:i+instructions_per_frame])
         pages = []
         index = 0
-        for list in divided_items:
-            pages.append(Page(index,list[0],list[-1],len(list)))
+        for items in divided_items:
+            pages.append(Page(index, items[0], items[-1], len(items)))
             index += 1
-        pcb.get_info_holder().set_pages(pages)
+        pcb.get_info_holder().set_hold(pages)
+
+
 '''
     def create_two(self, pcb, instructions_per_frame):
         pages = []

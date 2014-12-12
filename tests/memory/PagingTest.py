@@ -5,14 +5,15 @@ from memory.Memory import *
 from memory.paging.Paging import *
 from process.PCB import *
 
+
 class PagingTest(unittest.TestCase):
 
     # Arrange
     def setUp(self):
         self.memory = Memory(50)
         self.policy = Paging(self.memory, 10)
-        self.pcb1 = PCB(0, 0, 25)
-        self.pcb2 = PCB(1, 26, 10)
+        self.pcb1 = PCB(0, 25, PageHolder(None))
+        self.pcb2 = PCB(1, 16, PageHolder(None))
 
     def test_WhenIWant10PagesInAMemoryOf50Cells_ThenICanMakeThem(self):
         self.assertEqual(self.policy.get_amount_of_frames(), 5)

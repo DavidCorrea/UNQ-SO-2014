@@ -25,3 +25,6 @@ class FileSystem:
 
     def get_current(self):
         return self._current_directory
+
+    def get_program(self, file_name):
+        return self._current_directory.get_file(file_name)

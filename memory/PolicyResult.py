@@ -1,5 +1,6 @@
 __author__ = 'David'
 
+
 class PolicyResult():
 
     def __init__(self, start_index, end_index):
@@ -11,3 +12,4 @@ class PolicyResult():
 
     def get_end_index(self):
         return self._end_index
+

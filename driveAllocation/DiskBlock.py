@@ -9,5 +9,5 @@ class DiskBlock:
     def __len__(self):
         return len(self._instructions)
 
-    def get_data(self, index):
-        return self._instructions[index]
+    def get_data(self):
+        return self._instructions

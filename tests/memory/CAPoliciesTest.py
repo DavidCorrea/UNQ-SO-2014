@@ -11,7 +11,7 @@ class TestCAPolicies(unittest.TestCase):
 
     #Arrange
     def setUp(self):
-        self.pcb = PCB(0, 0, 5)
+        self.pcb = PCB(0, 0, None)
         self.block1 = Block(0, 0, 3)   # 4  Not enough size.
         self.block2 = Block(1, 4, 11)  # 6  First Fit.
         self.block3 = Block(2, 10, 12) # 3  Just another block with not enough size.
@@ -21,16 +21,16 @@ class TestCAPolicies(unittest.TestCase):
         self.blocks = [self.block1, self.block2, self.block3, self.block4, self.block5, self.block6] # This list is a list of Free Blocks.
 
     def test_whenISetFirstFit_thenIGetTheFirstBlockFoundByThePolicy(self):
-        caPolicy = FirstFit()
-        self.assertEqual(caPolicy.find_block(self.blocks, self.pcb), self.block2)
+        ca_policy = FirstFit()
+        self.assertEqual(ca_policy.find_block(self.blocks, self.pcb), self.block1)
 
     def test_whenISetWorstFit_thenIGetTheFirstBlockFoundByThePolicy(self):
-        caPolicy = WorstFit()
-        self.assertEqual(caPolicy.find_block(self.blocks, self.pcb), self.block4)
+        ca_policy = WorstFit()
+        self.assertEqual(ca_policy.find_block(self.blocks, self.pcb), self.block4)
 
     def test_whenISetBestFit_thenIGetTheFirstBlockFoundByThePolicy(self):
-        caPolicy = BestFit()
-        self.assertEqual(caPolicy.find_block(self.blocks, self.pcb), self.block6)
+        ca_policy = BestFit()
+        self.assertEqual(ca_policy.find_block(self.blocks, self.pcb), self.block3)
 
 suite = unittest.TestLoader().loadTestsFromTestCase(TestCAPolicies)
 unittest.TextTestRunner(verbosity=2).run(suite)

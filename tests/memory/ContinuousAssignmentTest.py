@@ -6,11 +6,12 @@ from memory.continuousAssignment.CAPolicies import *
 from process.PCB import *
 
 
+
 class TestContinuousAssignment(unittest.TestCase):
 
     # Arrange
     def setUp(self):
-        self.pcb1 = PCB(0, 0, 4)
+        self.pcb1 = PCB(0, 4, BlockHolder(None))
         self.caPolicy = FirstFit()
         self.memory = Memory(20)
         self.policy = ContinuousAssignment(self.memory, self.caPolicy)
@@ -23,27 +24,22 @@ class TestContinuousAssignment(unittest.TestCase):
         self.assertEqual(len(self.policy._blocks), 2)
 
     def test_whenIAddManyPCBs_thenItHasThatManyBlocks(self):
-        pcb2 = PCB(1, 3, 5)
-        pcb3 = PCB(2, 7, 3)
-        pcb4 = PCB(2, 4, 8)
-        self.policy.assign_to_memory(self.pcb1)
+        pcb2 = PCB(1, 2, BlockHolder(None))
+        pcb3 = PCB(2, 4, BlockHolder(None))
+        pcb4 = PCB(2, 4, BlockHolder(None))
         self.policy.assign_to_memory(pcb2)
         self.policy.assign_to_memory(pcb3)
         self.policy.assign_to_memory(pcb4)
         self.assertEqual(len(self.policy._blocks), 4)
 
     def test_whenINeedToCompact_thenItCompacts(self):
-        pcb1 = PCB(0, 0, 4)
-        pcb2 = PCB(1, 3, 5)
-        pcb3 = PCB(2, 7, 3)
-        pcb4 = PCB(2, 4, 8)
+        pcb1 = PCB(0, 4, BlockHolder(None))
+        pcb2 = PCB(1, 2, BlockHolder(None))
+        pcb3 = PCB(2, 4, BlockHolder(None))
+        pcb4 = PCB(2, 4, BlockHolder(None))
         self.policy.assign_to_memory(pcb1)
         self.policy.assign_to_memory(pcb2)
-        self.policy.assign_to_memory(pcb3)
-        self.policy.assign_to_memory(pcb4)
-        self.policy.set_block_to_free(pcb3)
-        self.policy.set_block_to_free(pcb1)
-        pcb5 = PCB(3, 9, 6)
+        pcb5 = PCB(3, 3, BlockHolder(None))
         self.policy.assign_to_memory(pcb5)
         self.assertEqual(len(self.policy._blocks), 4)
 

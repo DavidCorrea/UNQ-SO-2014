@@ -13,7 +13,7 @@ class FrameManager():
         self._free_frames = filter(lambda frame: not frame.is_in_use(), self._frames)
 
     def assign_page_to_frame(self, pcb):
-        pcb_pages = pcb.get_info_holder().get_pages()
+        pcb_pages = pcb.get_info_holder().get_hold()
         page = next(iter(filter(lambda p: not p.has_been_used(), pcb_pages)))
         policy_result = self.assign(page)
         self.update_free_frames()

@@ -12,6 +12,9 @@ class Page:
         self._assigned = False
         self._assigned_frame = None
 
+    def has_been_read(self,pc):
+        return self.get_real_instruction_number(pc) is self._ending_index
+
     def set_used(self):
         self._used = True
 

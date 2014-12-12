@@ -16,10 +16,10 @@ class HDD:
         return self._drive_saver
 
     def get_blocks(self, token):
-        return [map(lambda x: self._sectors[token.get_sector][x], token.get_blocks())]
+        return map(lambda x: self._sectors[unicode(token.get_sector())][x - 1], token.get_blocks())
 
     def add_block(self, sector, block):
-        self._sectors.get(unicode(sector)).append(block)
+        self._sectors[unicode(sector)].append(block)
         return len(self._sectors[unicode(sector)])
 
     def sectors_size(self):

@@ -17,7 +17,7 @@ class BlocksManager:
             block_to_use.decrease_size(new_block.size())
             blocks.insert(block_to_use.get_id(), new_block)
             self.update_blocks_ids_from(block_to_use)
-            pcb.get_info_holder().set_block(new_block)
+            pcb.get_info_holder().set_hold(new_block)
 
     def pcb_has_same_size_than_block(self, pcb, block_to_use):
         return pcb.get_amount_of_instructions() == block_to_use.size()

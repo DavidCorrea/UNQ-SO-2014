@@ -10,14 +10,14 @@ class FrameManagerTest(unittest.TestCase):
 
     # Arrange
     def setUp(self):
-        self.frame1 = Frame(0, 0, 9)
-        self.frame2 = Frame(1, 10, 19)
-        self.frame3 = Frame(2, 20, 29)
-        self.frame4 = Frame(3, 30, 39)
+        self.frame1 = Frame(0, 9, BlockHolder(None))
+        self.frame2 = Frame(1, 9, BlockHolder(None))
+        self.frame3 = Frame(2, 9, BlockHolder(None))
+        self.frame4 = Frame(3, 9, BlockHolder(None))
         self.frames = [self.frame1, self.frame2, self.frame3, self.frame4]
         self.frame_manager = FrameManager(self.frames)
         self.page_creator = PageCreator()
-        self.pcb = PCB(0, 0, 30)
+        self.pcb = PCB(0, 30, BlockHolder(None))
         self.page_creator.create(self.pcb, 5)
 
     def test_whenIAssignAPCBTheFirstTime_ThenFrameManagerUsesTheFirstFrame(self):
@@ -25,13 +25,13 @@ class FrameManagerTest(unittest.TestCase):
         first_frame = self.frame_manager.get_frames()[0]
 
         self.frame_manager.assign_page_to_frame(self.pcb)
-        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
+        first_pcb_page = self.pcb.get_info_holder().get_hold()[0]
         self.assertEquals(first_frame.get_page(), first_pcb_page)
 
     def test_whenTheFirstPCBPageIsUsedAndPCBIsAssigned_ThenFrameManagerUsesTheSecondFrame(self):
         # Pages
-        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
-        second_pcb_page =self.pcb.get_info_holder().get_pages()[1]
+        first_pcb_page = self.pcb.get_info_holder().get_hold()[0]
+        second_pcb_page =self.pcb.get_info_holder().get_hold()[1]
 
         self.frame_manager.assign_page_to_frame(self.pcb)
         first_pcb_page.set_used()
@@ -42,11 +42,11 @@ class FrameManagerTest(unittest.TestCase):
 
     def test_whenAllFramesAreUsedAndPCBAssignsOneMorePage_ThenTheYoungestFrameGetsEmpty(self):
         # Pages
-        first_pcb_page = self.pcb.get_info_holder().get_pages()[0]
-        second_pcb_page =self.pcb.get_info_holder().get_pages()[1]
-        third_pcb_page = self.pcb.get_info_holder().get_pages()[2]
-        forth_pcb_page = self.pcb.get_info_holder().get_pages()[3]
-        fifth_pcb_page = self.pcb.get_info_holder().get_pages()[4]
+        first_pcb_page = self.pcb.get_info_holder().get_hold()[0]
+        second_pcb_page =self.pcb.get_info_holder().get_hold()[1]
+        third_pcb_page = self.pcb.get_info_holder().get_hold()[2]
+        forth_pcb_page = self.pcb.get_info_holder().get_hold()[3]
+        fifth_pcb_page = self.pcb.get_info_holder().get_hold()[4]
 
         self.frame_manager.assign_page_to_frame(self.pcb)
         first_pcb_page.set_used()

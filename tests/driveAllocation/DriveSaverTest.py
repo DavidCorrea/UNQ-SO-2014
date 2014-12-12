@@ -28,9 +28,5 @@ class BlockCreatorTest(unittest.TestCase):
         blocks = self.driveSaver.convert_into_blocks(self.otherInstructions)
         self.assertEqual(sum(map(len, blocks)), 25)
 
-    def test_saving_a_program_should_return_navigator(self):
-        navigator = self.driveSaver.save_to_hdd(self.instructions)
-        self.assertEqual(len(navigator.get_block_number()), len(self.driveSaver.split_into_blocks(self.instructions)) )
-
 suite = unittest.TestLoader().loadTestsFromTestCase(BlockCreatorTest)
 unittest.TextTestRunner(verbosity=2).run(suite)
