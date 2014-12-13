@@ -14,6 +14,7 @@ class FrameManager():
         self._free_frames = filter(lambda frame: not frame.is_in_use(), self._frames)
 
     def assign_page_to_frame(self, pcb):
+        print("Attempting to Assign Page for PCB ID: " + str(pcb._id))
         pcb_pages = pcb.get_info_holder().get_hold()
         page = next(iter(filter(lambda p: not p.has_been_used(), pcb_pages)))
         pages = self._hdd.find_page(page.get_index())
@@ -34,10 +35,12 @@ class FrameManager():
     def assign(self, page):
         if self.free_frame_available():
             policy_result = self._table.put_page(page, self._frames, self._free_frames)
+            print("Page successfuly assigned!")
             return policy_result
         else:
             self.empty_youngest_frame()
             self.update_free_frames()
+            print("A frame became empty!")
             self.assign(page)
 
     def get_frames(self):

@@ -11,9 +11,10 @@ class CPU():
         self._memory_manager = kernel.get_memory_manager()
         self._currentInstruction = None
         self._scheduler = kernel.get_scheduler()
-        self._builderRQ = BuilderInterruption(self._kernel.get_ioQueue(), self._memory_manager, self._scheduler)
+        self._builderRQ = BuilderInterruption(self._kernel.get_io_queue(), self._memory_manager, self._scheduler)
         self._lock = self._kernel.get_lock()
-        Clock(self, self._lock ).run()
+        if(self._current_pcb is not None):
+            Clock(self, self._lock ).run()
 
     def receive_pcb(self):
         self._current_pcb = self._scheduler.next()

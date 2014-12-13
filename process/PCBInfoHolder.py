@@ -23,7 +23,7 @@ class PageHolder:
 
     def instructions(self):
         blocks = self._program.fetch_blocks()
-        return blocks[self.current].get_data()
+        return blocks[self._current].get_data()
 
     def current_mem_dir(self):
         return self._pages[self._current].get_real_instruction_number(self._pc)

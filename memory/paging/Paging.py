@@ -2,6 +2,7 @@ __author__ = 'David'
 from Frame import *
 from PageCreator import *
 from FrameManager import *
+from process.PCBInfoHolder import PageHolder
 
 
 class Paging:
@@ -22,6 +23,7 @@ class Paging:
         can_create = self._memory_size % self._instructions_per_frame == 0
         if can_create:
             index = 0
+            print("Creating frames...")
             for split in xrange(0, self._memory_size, self._instructions_per_frame):
                 self._frames.append(Frame(index, split, split + self._instructions_per_frame - 1))
                 index += 1
@@ -34,3 +36,9 @@ class Paging:
 
     def get_amount_of_free_frames(self):
         return len(filter(lambda f: not f.is_in_use(), self._frames))
+
+    def set_memory_manager(self, memory_manager):
+        self._memory_manager = memory_manager
+
+    def get_info_holder(self, program):
+        return PageHolder(program)

@@ -1,4 +1,4 @@
-from process import PCB
+from process.PCB import PCB
 
 
 class PCBCreator :
@@ -6,7 +6,7 @@ class PCBCreator :
     def __init__(self):
         self._currentID = 0
 
-    def create_pcb(self, amount_instructions, program):
-        pcb = PCB(self._currentID, amount_instructions, program)
+    def create_pcb(self, amount_instructions, program, m_policy):
+        pcb = PCB(self._currentID, amount_instructions, m_policy)
         self._currentID += 1
         return pcb

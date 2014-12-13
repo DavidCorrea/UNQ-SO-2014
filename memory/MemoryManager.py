@@ -32,4 +32,13 @@ class MemoryManager:
     def set_as_paging(self, instructions_per_frame):
         self._policy = Paging(self._memory, instructions_per_frame, self._hdd)
 
+    def get_memory(self):
+        return self._memory
+
+    def get_policy(self):
+        return self._policy
+
+    def set_policy(self, policy):
+        self._policy = policy
+
 
