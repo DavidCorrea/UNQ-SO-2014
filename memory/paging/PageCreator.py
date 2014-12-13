@@ -7,7 +7,7 @@ import math
 class PageCreator():
 
     def __init__(self):
-        pass
+        self._index = 0
 
     def create(self, pcb, instructions_per_frame):
         items = range(0, pcb.get_amount_of_instructions())
@@ -15,10 +15,9 @@ class PageCreator():
         for i in xrange(0, len(items), instructions_per_frame):
             divided_items.append(items[i:i+instructions_per_frame])
         pages = []
-        index = 0
         for items in divided_items:
-            pages.append(Page(index, items[0], items[-1], len(items)))
-            index += 1
+            pages.append(Page(self._index, items[0], items[-1], len(items)))
+            self._index += 1
         pcb.get_info_holder().set_hold(pages)
 
 

@@ -4,10 +4,11 @@ from Table import *
 
 class FrameManager():
 
-    def __init__(self, frames):
+    def __init__(self, frames, hdd):
         self._frames = frames
         self._free_frames = frames
         self._table = Table()
+        self._hdd = hdd
 
     def update_free_frames(self):
         self._free_frames = filter(lambda frame: not frame.is_in_use(), self._frames)
@@ -15,6 +16,9 @@ class FrameManager():
     def assign_page_to_frame(self, pcb):
         pcb_pages = pcb.get_info_holder().get_hold()
         page = next(iter(filter(lambda p: not p.has_been_used(), pcb_pages)))
+        pages = self._hdd.find_page(page.get_index())
+        if pages:
+            page = pages[0]
         policy_result = self.assign(page)
         self.update_free_frames()
         return policy_result
@@ -24,8 +28,7 @@ class FrameManager():
 
     def empty_youngest_frame(self):
         youngest = min(self._frames, key=lambda x: x.get_life())
-        # We should get the Page here and save it into the Swap Disk.
-        # HDD.get_swap_disk().save(youngest.get_page())
+        self._hdd.add_to_swap(youngest)
         youngest.set_not_in_use()
 
     def assign(self, page):

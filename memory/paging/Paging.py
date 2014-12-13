@@ -6,13 +6,13 @@ from FrameManager import *
 
 class Paging:
 
-    def __init__(self, memory, instructions_per_frame):
+    def __init__(self, memory, instructions_per_frame, hdd):
         self._memory = memory
         self._instructions_per_frame = instructions_per_frame
         self._memory_size = self._memory.size()
         self._frames = []
         self.generate_frames()
-        self._frame_manager = FrameManager(self._frames)
+        self._frame_manager = FrameManager(self._frames, hdd)
         self._page_creator = PageCreator()
 
     def get_amount_of_frames(self):

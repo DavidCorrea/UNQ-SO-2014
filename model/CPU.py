@@ -29,14 +29,14 @@ class CPU():
 
     def run_tick(self):
         if self._current_pcb.has_finished():
-            self._kernel.handleThis(self._builderRQ.buildKillRQ(self._current_pcb))
+            self._kernel.handle_this(self._builderRQ.buildKillRQ(self._current_pcb))
             self.receive_pcb()
         elif self._quantum == 0:
             self.reset_quantum()
-            self._kernel.handleThis(self._builderRQ.buildTimeoutRQ(self._current_pcb))
+            self._kernel.handle_this(self._builderRQ.buildTimeoutRQ(self._current_pcb))
             self.receive_pcb()
         elif self._currentInstruction.isIO():
-            self._kernel.handleThis(self._builderRQ.buildIORQ(self._current_pcb))
+            self._kernel.handle_this(self._builderRQ.buildIORQ(self._current_pcb))
             self.receive_pcb()
         else:
             self.fetch()

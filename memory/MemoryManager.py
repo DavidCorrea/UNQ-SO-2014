@@ -5,11 +5,12 @@ from memory.Memory import *
 
 class MemoryManager:
 
-    def __init__(self):
+    def __init__(self, hdd):
         self._memory = Memory(2048)
         self._next_index = 0
         self._policy = None
         self._memory_free_space = self._memory.get_free_space()
+        self._hdd = hdd
 
     def write(self, pcb):
         policy_result = self._policy.assign_to_memory(pcb)
@@ -29,6 +30,6 @@ class MemoryManager:
         self._policy = ContinuousAssignment(self._memory, ca_policy)
 
     def set_as_paging(self, instructions_per_frame):
-        self._policy = Paging(self._memory, instructions_per_frame)
+        self._policy = Paging(self._memory, instructions_per_frame, self._hdd)
 
 

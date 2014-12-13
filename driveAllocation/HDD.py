@@ -9,8 +9,8 @@ class HDD:
     def __init__(self, amount_sector):
         self._drive_saver = DriveSaver(self)
         self._sectors = dict.fromkeys(range(1, amount_sector), [])
-        self._files = []
         self._representation = jsonpickle.encode(FileSystem(self._drive_saver, Folder(None, "/")))
+        self._swap_area = []
 
     def get_drive_saver(self):
         return self._drive_saver
@@ -30,3 +30,10 @@ class HDD:
 
     def serialize_file_system(self, file_system):
         self._representation = jsonpickle.encode(file_system)
+
+    def find_page(self, index):
+        page = filter(lambda x: x.get_index() != index, self._swap_area )
+        return page
+
+    def add_to_swap(self, page):
+        self._swap_area.append(page)
