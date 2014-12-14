@@ -1,4 +1,7 @@
 from memory.continuousAssignment.BlockManager import *
+from memory.PolicyResult import *
+from process.PCBInfoHolder import BlockHolder
+
 
 class ContinuousAssignment:
 
@@ -10,20 +13,21 @@ class ContinuousAssignment:
         self._policy = policy
         self._blocks_manager = BlocksManager()
 
-    def create_new_block(self, pcb):
+    def assign_to_memory(self, pcb):
+            print("Attempting to Assing Block for PCB ID: " + str(pcb._id))
             if self.exists_block_with_space(pcb):
+                print("Block for PCB ID: " + str(pcb._id) + " successfuly assigned!")
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
                 self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
                 self.update_free_blocks()
+                pcb.get_info_holder().set_hold((block_to_use.get_start_index(), block_to_use.get_end_index()))
+                return PolicyResult(block_to_use.get_start_index(), block_to_use.get_end_index())
             else:
+                print("Compact required!")
                 self._memory.compact()
                 self.compact()
                 self.update_free_blocks()
-                self.create_new_block(pcb)
-
-    @staticmethod
-    def set_block_to_free(pcb):
-        pcb.get_block().setFree()
+                self.assign_to_memory(pcb)
 
     def exists_block_with_space(self, pcb):
         result = False
@@ -65,3 +69,9 @@ class ContinuousAssignment:
             if block.isFree():
                 result.append(block)
         self._free_blocks = result
+
+    def set_memory_manager(self, memory_manager):
+        self._memory_manager = memory_manager
+
+    def get_info_holder(self, program):
+        return BlockHolder(program)

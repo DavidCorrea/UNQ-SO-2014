@@ -32,7 +32,7 @@ class MemoryTest(unittest.TestCase):
             self.memory.put(index, self.instruction1)
         for index in range(12, 14):
             self.memory.put(index, self.instruction2)
-        for index in range(17, 19):
+        for index in range(17, 20):
             self.memory.put(index, self.instruction2)
         self.memory.compact()
         self.assertEqual(self.memory.get(19), None)

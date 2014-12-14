@@ -1,4 +1,4 @@
-from threading import  Thread
+from threading import Thread
 
 
 class Clock(Thread):
@@ -9,5 +9,5 @@ class Clock(Thread):
 
     def run(self):
         while True:
-            self._cpu.runTick()
+            self._cpu.run_tick()
             self._lock.acquire()

@@ -1,43 +1,43 @@
 from threading import Semaphore
 
-from driveAllocation import HDD
-from memory import MemoryManager, Memory
+from memory.MemoryManager import MemoryManager
 from model.Console import *
-from model.PCBCreator import PCBCreator
+from process.pcbCreator import PCBCreator
 from InterruptionHandler import Handler
 from IOQueue import IOQueue
 from CPU import CPU
-from scheduling import Scheduler
+from scheduling.LongTermScheduler import LTScheduler
+from scheduling.Scheduler import Scheduler
 
 
 class Kernel:
 
-    #Se debería agregar el Scheduler (First In First Out, Priority, Round Robbin)
-    def __init__(self, policyFor):
+    def __init__(self, policy_scheduler, hdd, policy_memory):
         self._console = Console()
-        self._hdd = HDD()
-        self._memoryManager = MemoryManager(Memory())
+        self._hdd = hdd
+        self._fileSystem = self._hdd.generate_file_system()
+        self._memoryManager = MemoryManager(self)
+        self._memoryManager.set_policy(policy_memory)
         self._creatorPCB = PCBCreator()
         self._scheduler = Scheduler()
-        policyFor(self._scheduler)
+        self._scheduler.set_policy(policy_scheduler)
+        policy_memory.set_memory_manager(self._memoryManager)
+        self._long_term_scheduler = LTScheduler(self._scheduler, self._memoryManager)
         self._ioQueue = IOQueue(self._memoryManager, self._scheduler)
-        self._handler = Handler(self._scheduler, self._memoryManager, self._ioQueue)
+        self._handler = Handler()
         self._lock = Semaphore(0)
         self._cpu = CPU(self)
         self._ioQueue.start()
 
-    def run(self, program):
-        program = self._hdd.getProgram(program.getName())
-        begin = self._memoryManager.write(program) #Se asigna el número de la primera Instrucción.
-        pcb = self._creatorPCB.createPCB( begin, len(program.getInstructions()))
-        self.addToScheduler(pcb)
-
-    def addToScheduler(self, pcb):
-        #pcb.changeStatus(PCBStatus.ready) #Va a haber validaciones para esto.
-        self._scheduler.add(pcb)
+    def run(self, program_name):
+        print("Running " + program_name + "...")
+        program = self._fileSystem.get_program(program_name)
+        instructions = [item for sublist in (map(lambda x: x.get_data(), program.fetch_blocks())) for item in sublist]
+        pcb = self._creatorPCB.create_pcb(len(instructions), program, self._memoryManager.get_policy().get_info_holder(program))
+        self._long_term_scheduler.init_process(pcb)
 
 
-    def handleThis(self, interruption):
+    def handle_this(self, interruption):
         self._handler.handle(interruption)
         self._lock.release()
 
@@ -47,7 +47,7 @@ class Kernel:
     def get_scheduler(self):
         return self._scheduler
 
-    def get_ioQueue(self):
+    def get_io_queue(self):
         return self._ioQueue
 
     def get_lock(self):

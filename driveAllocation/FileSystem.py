@@ -1,57 +1,30 @@
-from DriveSaver import *
+__author__ = 'robot'
 
 
-class Folder:
+class FileSystem:
 
-    def __init__(self, parent, folder_name):
-        self._absolute_address = self.set_absolute_address(parent, folder_name)
-        self._relative_address = folder_name
-        self._files = []
-        self._siblings = []
+    def __init__(self, drive_saver, main_folder):
+        self._drive_saver = drive_saver
+        self._current_directory = main_folder
 
-    @staticmethod
-    def set_absolute_address(parent, folder_name):
-        if not parent is None:
-            return parent.get_absolute_address() + "/" + folder_name
-        # Root case.
-        else:
-            return folder_name
+    def go_to_parent(self):
+        if self._current_directory.get_parent() is not None:
+            self._current_directory = self._current_directory.get_parent()
 
-    def get_absolute_address(self):
-        return self._absolute_address
+    def list_folders(self):
+        return self._current_directory.get_folders()
 
-    def get_relative_address(self):
-        return self._relative_address
+    def add_folder(self, folder_name):
+        self._current_directory.new_folder(folder_name)
 
-    def new_file(self, new_file):
-        self._files.append(new_file)
+    def add_file(self, file_name, program):
+        self._current_directory.new_file(self._drive_saver, file_name, program)
 
-    def new_folder(self, folder_name):
-        folder = Folder(self, folder_name)
-        self._siblings.append(folder)
+    def list_files(self):
+        return self._current_directory.get_files()
 
-    def get_file(self, file_name):
-        return filter(lambda f: f.get_name() == file_name, self._files)[0]
+    def get_current(self):
+        return self._current_directory
 
-    def get_folder(self, folder_name):
-        return (filter(lambda f: f.get_relative_address() == folder_name, self._siblings))[0]
-
-    def get_files(self):
-        return self._files
-
-    def get_folders(self):
-        return self._siblings
-
-
-class File:
-
-    def __init__(self, name, program):
-        self._name = name
-        self._DriveSaver = DriveSaver()
-        self._navigator = self._DriveSaver.save_to_hdd(program.get_instructions())
-
-    def get_name(self):
-        return self._name
-
-    def fetch_blocks(self):
-        return self._navigator.fetch_blocks()
+    def get_program(self, file_name):
+        return self._current_directory.get_file(file_name)

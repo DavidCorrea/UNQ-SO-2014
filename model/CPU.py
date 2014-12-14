@@ -11,30 +11,35 @@ class CPU():
         self._memory_manager = kernel.get_memory_manager()
         self._currentInstruction = None
         self._scheduler = kernel.get_scheduler()
-        self._builderRQ = BuilderInterruption(self._kernel.get_ioQueue(), self._memory_manager, self._scheduler)
-        Clock(self, self._kernel.get_lock()).run()
+        self._builderRQ = BuilderInterruption(self._kernel.get_io_queue(), self._memory_manager, self._scheduler)
+        self._lock = self._kernel.get_lock()
+        if(self._current_pcb is not None):
+            Clock(self, self._lock ).run()
 
     def receive_pcb(self):
         self._current_pcb = self._scheduler.next()
 
     def fetch(self):
-        self._currentInstruction = self._memory_manager.read(self._current_pcb.pc)
+        if self._current_pcb.needs_reload():
+            self._memory_manager.write(self._current_pcb)
+        self._currentInstruction = self._memory_manager.read(self._current_pcb.get_pc())
         self._current_pcb.increment()
 
     def reset_quantum(self):
         self._quantum = self._kernel.get_scheduler().get_quantum()
 
-    def runTick(self):
-        if self._current_pcb.pc.hasFinished():
-            self._kernel.handleThis(self._builderRQ.buildKillRQ(self._current_pcb))
+    def run_tick(self):
+        if self._current_pcb.has_finished():
+            self._kernel.handle_this(self._builderRQ.buildKillRQ(self._current_pcb))
             self.receive_pcb()
         elif self._quantum == 0:
             self.reset_quantum()
-            self._kernel.handleThis(self._builderRQ.buildTimeoutRQ(self._current_pcb))
+            self._kernel.handle_this(self._builderRQ.buildTimeoutRQ(self._current_pcb))
             self.receive_pcb()
         elif self._currentInstruction.isIO():
-            self._kernel.handleThis(self._builderRQ.buildIORQ(self._current_pcb))
+            self._kernel.handle_this(self._builderRQ.buildIORQ(self._current_pcb))
             self.receive_pcb()
         else:
             self.fetch()
+            self._lock.release()
             self._quantum -= 1
