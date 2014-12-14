@@ -1,5 +1,6 @@
 __author__ = 'robot'
 
+from main.CustomLogger import Logger
 
 class FileSystem:
 
@@ -18,6 +19,7 @@ class FileSystem:
         self._current_directory.new_folder(folder_name)
 
     def add_file(self, file_name, program):
+        Logger.ok(file_name + " added to the File System.")
         self._current_directory.new_file(self._drive_saver, file_name, program)
 
     def list_files(self):

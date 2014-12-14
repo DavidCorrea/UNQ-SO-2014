@@ -1,11 +1,9 @@
-import unittest
-
-from model.Instruction import *
-
+from main.CustomLogger import Logger
 
 class Program:
 
-    def __init__(self, instructions, name):       
+    def __init__(self, instructions, name):
+        Logger.ok("Program " + name + " created.")
         self._instructions = instructions
         self._name = name
 

@@ -4,6 +4,7 @@ from threading import Thread
 class Clock(Thread):
 
     def __init__(self, cpu, lock):
+        Thread.__init__(self)
         self._cpu = cpu
         self._lock = lock
 

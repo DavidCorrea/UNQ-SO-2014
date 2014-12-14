@@ -15,13 +15,13 @@ class Scheduler:
         self._policy = PriorityScheduler()
         self._quantum = -1
 
-    def get_quantum(self):
-        return self._policy.get_quantum()
-
     #El quantum debe ser mayor a 0.
     def set_as_rr(self, quantum):
         self._policy = RoundRobinScheduler(quantum)
         self._quantum = quantum
+
+    def get_quantum(self):
+        return self._quantum
 
     def add(self, pcb):
         self._policy.add(pcb)
@@ -37,7 +37,6 @@ class FifoScheduler():
 
     def __init__(self):
         self._readyq = []
-        self._quantum = -1
 
     def add(self, pcb):
         self._readyq.append(pcb)
@@ -50,9 +49,6 @@ class FifoScheduler():
     def set_scheduler(self, scheduler):
         scheduler.set_as_fifo()
 
-    def get_quantum(self):
-        return self._quantum
-
 
 class PriorityScheduler():
 
@@ -60,7 +56,6 @@ class PriorityScheduler():
         self._readyq = PriorityQueue()
         self._pcbsQ = []
         self._counter = 0
-        self._quantum = -1
 
     def add(self, pcb):
         self._readyq.put((pcb._priority, self._counter, pcb))
@@ -78,8 +73,6 @@ class PriorityScheduler():
     def set_scheduler(self, scheduler):
         scheduler.set_as_pq()
 
-    def get_quantum(self):
-        return self._quantum
 
 class RoundRobinScheduler():
 

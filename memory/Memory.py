@@ -1,4 +1,4 @@
-
+from main.CustomLogger import Logger
 
 class Memory:
 
@@ -9,7 +9,7 @@ class Memory:
         return self._cells[index]
 
     def put(self, position, instruction):
-        print("Writing in Memory Position " + str(position) + " : [ " + str(instruction) + " ]")
+        Logger.info("Writing in Memory Position " + str(position) + " : [ " + str(instruction) + " ]")
         self._cells[position] = instruction
 
     def get_last_index(self):

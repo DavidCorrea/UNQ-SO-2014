@@ -1,4 +1,5 @@
 import jsonpickle
+from main.CustomLogger import Logger
 from FileSystemComponents import *
 from FileSystem import FileSystem
 from driveAllocation.DriveSaver import DriveSaver
@@ -26,10 +27,13 @@ class HDD:
         return len(self._sectors.keys())
 
     def generate_file_system(self):
+        Logger.ok("File system generated.")
         return jsonpickle.decode(self._representation)
 
     def serialize_file_system(self, file_system):
+        Logger.ok("Serializing file system...")
         self._representation = jsonpickle.encode(file_system)
+        Logger.ok("File system serialized.")
 
     def find_page(self, index):
         page = filter(lambda x: x.get_index() != index, self._swap_area )

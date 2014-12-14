@@ -1,51 +1,78 @@
 __author__ = 'David'
 
-from driveAllocation.HDD import HDD
-from process.Program import Program
-from model.Kernel import Kernel
-from scheduling.Scheduler import PriorityScheduler
-from scheduling.Scheduler import RoundRobinScheduler
-from memory.continuousAssignment.ContinuousAssignment import ContinuousAssignment
-from memory.paging.Paging import Paging
-from memory.continuousAssignment.CAPolicies import BestFit
-from memory.MemoryManager import MemoryManager
+import cmd
+from main.CustomLogger import Logger
+from main.CmdAppModel import CmdAppModel
+from Options import Options
 
 
-class Main:
+class Main(cmd.Cmd):
+
+    prompt = 'SO :: '
 
     def __init__(self):
+        cmd.Cmd.__init__(self)
+        Logger.ok("Initializing App...")
+        self._appModel = CmdAppModel()
+        self._options = Options()
 
-        self.program1 = Program(range(0,10), "Word")
-        self.program2 = Program(range(0,50), "Excel")
-        self.program3 = Program(range(0,20), "Powerpoint")
+    def welcome_message(self):
+        print "Welcome! This is the SO-2014 Command Prompt. \n"
 
-        self.hdd = HDD(50)
+    def start_setup(self):
+        print ":: Kernel Setup \n"
+        self.memory_policies_message()
+        self.scheduler_policies_message()
+        self._appModel.start()
 
-        self.file_system = self.hdd.generate_file_system()
-        self.file_system.add_file("Word", self.program1)
-        self.file_system.add_file("Excel", self.program1)
-        self.file_system.add_file("Powerpoint", self.program1)
+    def memory_policies_message(self):
+        print """Memory Policies :: Please, select one of the next options:
 
-        self.hdd.serialize_file_system(self.file_system)
+        1 - Continuous Assignment
+        2 - Paging
+        """
+        option_selected = int(raw_input("Policy: "))
+        if(option_selected == 1):
+            self._options.eval_memory_option(option_selected, self._appModel.get_kernel())
+            self.continuous_assignment_policies_message()
+        else:
+            page_size = int(input("Page Size: "))
+            self._options.eval_memory_option(option_selected, self._appModel.get_kernel(), page_size)
 
-        self.memory_manager = MemoryManager(self.hdd)
+    def scheduler_policies_message(self):
+        print """Scheduler Policies :: Please, select one of the next options:
 
-    def run_example_1(self):
-        self.scheduler_policy = PriorityScheduler()
-        self.continuous_assignment_policy = BestFit()
-        self.memory_policy = ContinuousAssignment(self.memory_manager.get_memory(), self.continuous_assignment_policy)
-        self.kernel = Kernel(self.scheduler_policy, self.hdd, self.memory_policy)
-        self.kernel.run("Word")
-        self.kernel.run("Excel")
-        self.kernel.run("Powerpoint")
+        1 - First in, First out
+        2 - Priority
+        3 - Round Robin
+        """
+        option_selected = input("Policy: ")
+        if(option_selected == 3):
+            quantum = input("Quantum: ")
+            self._options.eval_scheduler_option(option_selected, self._appModel.get_kernel(), quantum)
+        else:
+            self._options.eval_scheduler_option(option_selected, self._appModel.get_kernel())
 
-    def run_example_2(self):
-        self.scheduler_policy = RoundRobinScheduler(3)
-        self.memory_policy = Paging(self.memory_manager.get_memory(), 2, self.hdd)
-        self.kernel = Kernel(self.scheduler_policy, self.hdd, self.memory_policy)
-        self.kernel.run("Word")
-        self.kernel.run("Excel")
-        self.kernel.run("Powerpoint")
+    def continuous_assignment_policies_message(self):
+        print """Continuous Assignment Policies :: Please, select one of the next options:
+
+        1 - First Fit
+        2 - Worst Fit
+        3 - Best Fit
+        """
+        option_selected = input("Policy: ")
+        self._options.eval_continuous_assignment_option(option_selected, self._appModel.get_kernel())
+
+    def do_run(self, program_name):
+        self._appModel.run(program_name)
+
+    def do_list(self, files):
+        files = [fl.get_name() for fl in self._appModel.get_kernel().get_file_system().list_files()]
+        print '\n'.join(files)
+
 
 if __name__ == '__main__':
-    Main().run_example_2()
+    app = Main()
+    app.welcome_message()
+    app.start_setup()
+    app.cmdloop()

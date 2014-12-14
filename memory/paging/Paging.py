@@ -3,6 +3,7 @@ from Frame import *
 from PageCreator import *
 from FrameManager import *
 from process.PCBInfoHolder import PageHolder
+from main.CustomLogger import Logger
 
 
 class Paging:
@@ -23,10 +24,11 @@ class Paging:
         can_create = self._memory_size % self._instructions_per_frame == 0
         if can_create:
             index = 0
-            print("Creating frames...")
+            Logger.info("Creating frames...")
             for split in xrange(0, self._memory_size, self._instructions_per_frame):
                 self._frames.append(Frame(index, split, split + self._instructions_per_frame - 1))
                 index += 1
+            Logger.ok("Frames created!")
 
     def assign_to_memory(self, pcb):
         if not pcb.get_info_holder().is_holding():

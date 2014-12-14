@@ -1,32 +1,37 @@
+from main.CustomLogger import Logger
 from memory.continuousAssignment.BlockManager import *
 from memory.PolicyResult import *
 from process.PCBInfoHolder import BlockHolder
+from memory.continuousAssignment.CAPolicies import BestFit
+from memory.continuousAssignment.CAPolicies import FirstFit
+from memory.continuousAssignment.CAPolicies import WorstFit
 
 
 class ContinuousAssignment:
 
-    def __init__(self, memory, policy):
+    def __init__(self, memory):
         self._memory = memory
         self._memory_last_index = self._memory.get_last_index()
         self._blocks = [Block(0, 0, self._memory_last_index)]
         self._free_blocks = self._blocks
-        self._policy = policy
+        self._policy = None
         self._blocks_manager = BlocksManager()
 
     def assign_to_memory(self, pcb):
-            print("Attempting to Assing Block for PCB ID: " + str(pcb._id))
+            Logger.info("Attempting to Assing Block for PCB ID: " + str(pcb._id))
             if self.exists_block_with_space(pcb):
-                print("Block for PCB ID: " + str(pcb._id) + " successfuly assigned!")
+                Logger.ok("Block for PCB ID: " + str(pcb._id) + " successfuly assigned!")
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
                 self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
                 self.update_free_blocks()
                 pcb.get_info_holder().set_hold((block_to_use.get_start_index(), block_to_use.get_end_index()))
                 return PolicyResult(block_to_use.get_start_index(), block_to_use.get_end_index())
             else:
-                print("Compact required!")
+                Logger.warning("Compact required!")
                 self._memory.compact()
                 self.compact()
                 self.update_free_blocks()
+                Logger.warning("Compacted!")
                 self.assign_to_memory(pcb)
 
     def exists_block_with_space(self, pcb):
@@ -75,3 +80,12 @@ class ContinuousAssignment:
 
     def get_info_holder(self, program):
         return BlockHolder(program)
+
+    def set_as_best_fit(self):
+        self._policy = BestFit()
+
+    def set_as_worst_fit(self):
+        self._policy = WorstFit()
+
+    def set_as_first_fit(self):
+        self._policy = FirstFit()

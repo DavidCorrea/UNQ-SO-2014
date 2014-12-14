@@ -1,5 +1,5 @@
+from main.CustomLogger import Logger
 from threading import Semaphore
-
 from memory.MemoryManager import MemoryManager
 from model.Console import *
 from process.pcbCreator import PCBCreator
@@ -8,34 +8,37 @@ from IOQueue import IOQueue
 from CPU import CPU
 from scheduling.LongTermScheduler import LTScheduler
 from scheduling.Scheduler import Scheduler
+from driveAllocation.HDD import HDD
 
 
 class Kernel:
 
-    def __init__(self, policy_scheduler, hdd, policy_memory):
+    def __init__(self):
+        Logger.ok("Creating Kernel...")
         self._console = Console()
-        self._hdd = hdd
+        self._hdd = HDD(100)
         self._fileSystem = self._hdd.generate_file_system()
-        self._memoryManager = MemoryManager(self)
-        self._memoryManager.set_policy(policy_memory)
+        self._memoryManager = MemoryManager(self._hdd)
         self._creatorPCB = PCBCreator()
         self._scheduler = Scheduler()
-        self._scheduler.set_policy(policy_scheduler)
-        policy_memory.set_memory_manager(self._memoryManager)
         self._long_term_scheduler = LTScheduler(self._scheduler, self._memoryManager)
         self._ioQueue = IOQueue(self._memoryManager, self._scheduler)
         self._handler = Handler()
         self._lock = Semaphore(0)
+        # self._cpu = CPU(self)
+        # self._ioQueue.start()
+        Logger.ok("Kernel created.")
+
+    def start(self):
         self._cpu = CPU(self)
         self._ioQueue.start()
 
     def run(self, program_name):
-        print("Running " + program_name + "...")
+        Logger.info("Running " + program_name + "...")
         program = self._fileSystem.get_program(program_name)
         instructions = [item for sublist in (map(lambda x: x.get_data(), program.fetch_blocks())) for item in sublist]
         pcb = self._creatorPCB.create_pcb(len(instructions), program, self._memoryManager.get_policy().get_info_holder(program))
         self._long_term_scheduler.init_process(pcb)
-
 
     def handle_this(self, interruption):
         self._handler.handle(interruption)
@@ -52,3 +55,9 @@ class Kernel:
 
     def get_lock(self):
         return self._lock
+
+    def get_hdd(self):
+        return self._hdd
+
+    def get_file_system(self):
+        return self._fileSystem

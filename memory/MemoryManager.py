@@ -26,8 +26,8 @@ class MemoryManager:
     def can_serve(self,pcb):
         return self._memory_free_space >= pcb.get_amount_of_instructions()
 
-    def set_as_ca(self, ca_policy):
-        self._policy = ContinuousAssignment(self._memory, ca_policy)
+    def set_as_ca(self):
+        self._policy = ContinuousAssignment(self._memory)
 
     def set_as_paging(self, instructions_per_frame):
         self._policy = Paging(self._memory, instructions_per_frame, self._hdd)
