@@ -8,36 +8,32 @@ from IOQueue import IOQueue
 from CPU import CPU
 from scheduling.LongTermScheduler import LTScheduler
 from scheduling.Scheduler import Scheduler
-from driveAllocation.HDD import HDD
 
 
 class Kernel:
 
-    def __init__(self):
-        Logger.ok("Creating Kernel...")
+    #@Logger.ok("Creating Kernel...")
+    def __init__(self, hdd, configurator):
+        lock_programs = Semaphore(0)
         self._console = Console()
-        self._hdd = HDD(100)
+        self._hdd = hdd
         self._fileSystem = self._hdd.generate_file_system()
         self._memoryManager = MemoryManager(self._hdd)
         self._creatorPCB = PCBCreator()
-        self._scheduler = Scheduler()
+        self._scheduler = Scheduler(lock_programs)
         self._long_term_scheduler = LTScheduler(self._scheduler, self._memoryManager)
         self._ioQueue = IOQueue(self._memoryManager, self._scheduler)
         self._handler = Handler()
         self._lock = Semaphore(0)
-        # self._cpu = CPU(self)
-        # self._ioQueue.start()
-        Logger.ok("Kernel created.")
-
-    def start(self):
-        self._cpu = CPU(self)
+        configurator.configure(self)
+        self._cpu = None
         self._ioQueue.start()
 
     def run(self, program_name):
-        Logger.info("Running " + program_name + "...")
         program = self._fileSystem.get_program(program_name)
-        instructions = [item for sublist in (map(lambda x: x.get_data(), program.fetch_blocks())) for item in sublist]
-        pcb = self._creatorPCB.create_pcb(len(instructions), program, self._memoryManager.get_policy().get_info_holder(program))
+        instructions = [item for sub_list in (map(lambda x: x.get_data(), program.fetch_blocks())) for item in sub_list]
+        pcb = self._creatorPCB.create_pcb(len(instructions),
+                                          program, self._memoryManager.get_policy().get_info_holder(program))
         self._long_term_scheduler.init_process(pcb)
 
     def handle_this(self, interruption):

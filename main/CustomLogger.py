@@ -25,3 +25,5 @@ class Logger:
     @staticmethod
     def info(message):
         print(Bcolors.INFO + "[ INFO ] [ " + strftime('%H:%M:%S') + " ] " + message + Bcolors.ENDC)
+
+
