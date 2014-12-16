@@ -22,10 +22,10 @@ class ContinuousAssignment:
             if self.exists_block_with_space(pcb):
                 Logger.ok("Block for PCB ID: " + str(pcb._id) + " successfuly assigned!")
                 block_to_use = self._policy.find_block(self._free_blocks, pcb)
-                self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
+                new_block = self._blocks_manager.divide_block(pcb, block_to_use, self._blocks)
                 self.update_free_blocks()
-                pcb.get_info_holder().set_hold((block_to_use.get_start_index(), block_to_use.get_end_index()))
-                return PolicyResult(block_to_use.get_start_index(), block_to_use.get_end_index())
+                pcb.get_info_holder().set_hold((new_block.get_start_index(), new_block.get_end_index()))
+                return PolicyResult(new_block.get_start_index(), new_block.get_end_index())
             else:
                 Logger.warning("Compact required!")
                 self._memory.compact()

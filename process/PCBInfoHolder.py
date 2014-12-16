@@ -16,10 +16,10 @@ class PageHolder:
     def has_finished(self):
         return self._current is len(self._pages)
 
-    def needs_reload(self, pc):
+    def needs_reload(self):
         aux = self._current
         self._current += 1
-        return self._pages[aux].has_been_read(pc)
+        return self._pages[aux].has_been_read(self._pc)
 
     def instructions(self):
         blocks = self._program.fetch_blocks()
@@ -51,7 +51,7 @@ class BlockHolder:
     def has_finished(self):
         return self.current_mem_dir() == self._dirs[1]
 
-    def needs_reload(self, pc):
+    def needs_reload(self):
         return False
 
     def instructions(self):

@@ -18,6 +18,7 @@ class CPU():
 
     def receive_pcb(self):
         self._current_pcb = self._scheduler.next()
+        self.fetch()
 
     def fetch(self):
         Logger.info("Fetching next instruction...")

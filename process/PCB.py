@@ -17,6 +17,7 @@ class PCB:
 
     def increment(self):
         self._info_holder.increment()
+
     def get_pc(self):
         return self._info_holder.current_mem_dir()
 
@@ -28,6 +29,9 @@ class PCB:
 
     def has_finished(self):
         return self._info_holder.has_finished()
+
+    def needs_reload(self):
+        self._info_holder.needs_reload()
 
     def set_priority(self, priority):
         self._priority = priority
