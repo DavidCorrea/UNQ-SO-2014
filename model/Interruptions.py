@@ -37,7 +37,7 @@ class BuilderInterruption:
 
 
     def buildIORQ(self, pcb):
-        return ThrowIORQ(pcb, self._ioQ)
+        return ThrowIORQ(pcb, self._ioQ, self._scheduler)
 
     def buildKillRQ(self, pcb):
         return ThrowKillRQ(pcb, self._memoryManager)
