@@ -1,3 +1,5 @@
+from main.CustomLogger import Logger
+
 
 class ThrowIORQ:
 
@@ -17,6 +19,8 @@ class ThrowKillRQ:
 
     def handle(self):
         self._memoryManager.remove(self._pcb)
+        Logger.ok("Process ended succesfully!")
+
 
 class ThrowTimeOutRQ:
 

@@ -15,8 +15,8 @@ class Page:
     def get_index(self):
         return self._index
 
-    def has_been_read(self,pc):
-        return self.get_real_instruction_number(pc) is self._ending_index
+    def has_been_read(self, pc):
+        return pc is self._ending_index + 1
 
     def set_used(self):
         self._used = True
@@ -48,4 +48,4 @@ class Page:
         return self._amount_of_instructions
 
     def get_real_instruction_number(self, instruction_number):
-        return self._assigned_frame.get_starting_index() + instruction_number # Check
+        return self._assigned_frame.get_starting_index()

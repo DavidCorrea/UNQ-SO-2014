@@ -8,7 +8,7 @@ class MemoryTest(unittest.TestCase):
 
     #Arrange
     def setUp(self):
-        self.memory = Memory(20)
+        self.memory = Memory(100)
         self.instruction1 = InstructionCPU()
         self.instruction2 = InstructionIO()
         self.instruction3 = InstructionCPU()

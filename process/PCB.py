@@ -31,7 +31,7 @@ class PCB:
         return self._info_holder.has_finished()
 
     def needs_reload(self):
-        self._info_holder.needs_reload()
+        return self._info_holder.needs_reload()
 
     def set_priority(self, priority):
         self._priority = priority

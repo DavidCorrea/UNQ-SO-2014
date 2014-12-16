@@ -1,4 +1,5 @@
 from threading import *
+from main.CustomLogger import Logger
 
 
 class IOQueue(Thread):
@@ -15,8 +16,10 @@ class IOQueue(Thread):
         self._lock.release()
 
     def dispatch(self):
-        self._scheduler.add(self._waiting[0])
-        self._waiting.remove(self._waiting[0])
+        Logger.ok("Returning to Ready Q")
+        item_to_remove = self._waiting[0]
+        self._waiting.remove(item_to_remove)
+        self._scheduler.add(item_to_remove)
 
     def run(self):
         while True:
@@ -24,6 +27,8 @@ class IOQueue(Thread):
             current_process = self._waiting[0]
             while self._memory_manager.read(current_process.get_pc()).isIO():
                 if current_process.has_finished():
+                    current_process.increment()
                     break
+                #Logger.info("Managing IO Instruction")
                 current_process.increment()
             self.dispatch()

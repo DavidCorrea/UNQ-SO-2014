@@ -75,11 +75,18 @@ class ContinuousAssignment:
                 result.append(block)
         self._free_blocks = result
 
+    def remove(self, pcb):
+        dirs = pcb.get_info_holder().get_hold()
+        block = filter(lambda b: b.get_start_index() is dirs[0] and b.get_end_index() is dirs[1], self._blocks)[0]
+        block.setFree()
+        self._free_blocks.append(block)
+
     def set_memory_manager(self, memory_manager):
         self._memory_manager = memory_manager
 
     def get_info_holder(self, program):
         return BlockHolder(program)
+
 
     def set_as_best_fit(self):
         self._policy = BestFit()

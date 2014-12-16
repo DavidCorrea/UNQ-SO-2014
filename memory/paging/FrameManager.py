@@ -2,6 +2,7 @@ __author__ = 'David'
 from Table import *
 from main.CustomLogger import Logger
 
+
 class FrameManager():
 
     def __init__(self, frames, hdd):

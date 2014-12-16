@@ -6,7 +6,7 @@ from memory.Memory import *
 class MemoryManager:
 
     def __init__(self, hdd):
-        self._memory = Memory(2048)
+        self._memory = Memory(2000)
         self._next_index = 0
         self._policy = None
         self._memory_free_space = self._memory.get_free_space()
@@ -22,6 +22,9 @@ class MemoryManager:
 
     def read(self, mem_dir):
         return self._memory.get(mem_dir)
+
+    def remove(self, pcb):
+        self._policy.remove(pcb)
 
     def can_serve(self,pcb):
         return self._memory_free_space >= pcb.get_amount_of_instructions()
