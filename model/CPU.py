@@ -5,7 +5,7 @@ from main.CustomLogger import Logger
 
 class CPU():
 
-    def __init__(self, kernel, lock_programs):
+    def __init__(self, kernel):
         self._kernel = kernel
         self._current_pcb = None
         self._quantum = kernel.get_scheduler().get_quantum()
@@ -14,7 +14,7 @@ class CPU():
         self._scheduler = kernel.get_scheduler()
         self._builderRQ = BuilderInterruption(self._kernel.get_io_queue(), self._memory_manager, self._scheduler)
         self._lock = self._kernel.get_lock()
-        Clock(self, self._lock, lock_programs).run()
+        Clock(self, self._lock).start()
 
     def receive_pcb(self):
         self._current_pcb = self._scheduler.next()

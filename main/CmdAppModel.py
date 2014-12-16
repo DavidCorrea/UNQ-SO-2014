@@ -15,5 +15,5 @@ class CmdAppModel:
     def build_kernel(self, config):
         self._kernel = Kernel(self._setup.get_hdd(), config)
 
-    def run(self, kernel, program_name):
+    def run(self, program_name):
         self._kernel.run(program_name)

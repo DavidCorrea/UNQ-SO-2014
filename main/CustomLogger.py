@@ -4,6 +4,10 @@ from time import strftime
 
 
 class Bcolors:
+
+    def __init__(self):
+        pass
+
     INFO = '\033[90m'
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -12,7 +16,11 @@ class Bcolors:
     FAIL = '\033[91m'
     ENDC = '\033[0m'
 
+
 class Logger:
+
+    def __init__(self):
+        pass
 
     @staticmethod
     def ok(message):
@@ -25,5 +33,7 @@ class Logger:
     @staticmethod
     def info(message):
         print(Bcolors.INFO + "[ INFO ] [ " + strftime('%H:%M:%S') + " ] " + message + Bcolors.ENDC)
+
+
 
 

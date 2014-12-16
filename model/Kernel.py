@@ -14,19 +14,18 @@ class Kernel:
 
     #@Logger.ok("Creating Kernel...")
     def __init__(self, hdd, configurator):
-        lock_programs = Semaphore(0)
         self._console = Console()
         self._hdd = hdd
         self._fileSystem = self._hdd.generate_file_system()
         self._memoryManager = MemoryManager(self._hdd)
         self._creatorPCB = PCBCreator()
-        self._scheduler = Scheduler(lock_programs)
+        self._scheduler = Scheduler()
         self._long_term_scheduler = LTScheduler(self._scheduler, self._memoryManager)
         self._ioQueue = IOQueue(self._memoryManager, self._scheduler)
         self._handler = Handler()
         self._lock = Semaphore(0)
         configurator.configure(self)
-        self._cpu = None
+        self._cpu = CPU(self)
         self._ioQueue.start()
 
     def run(self, program_name):

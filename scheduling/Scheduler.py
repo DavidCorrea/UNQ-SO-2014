@@ -1,12 +1,12 @@
 from Queue import PriorityQueue
-
+from threading import Semaphore
 
 class Scheduler:
 
-    def __init__(self, lock_programs):
+    def __init__(self):
         self._policy = None
         self._quantum = None
-        self._lock = lock_programs
+        self._lock2 = Semaphore(0)
 
     def set_as_fifo(self):
         self._policy = FifoScheduler()
@@ -25,10 +25,11 @@ class Scheduler:
         return self._quantum
 
     def add(self, pcb):
-        self._lock.release()
+        self._lock2.release()
         self._policy.add(pcb)
 
     def next(self):
+        self._lock2.acquire()
         return self._policy.get_pcb()
 
     def set_policy(self, policy):

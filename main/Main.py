@@ -78,6 +78,4 @@ if __name__ == '__main__':
     app = Main()
     app.welcome_message()
     app.start_setup()
-    app.do_run()
-    app.do_list()
     app.cmdloop()
