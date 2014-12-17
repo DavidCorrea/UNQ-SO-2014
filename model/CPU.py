@@ -21,7 +21,7 @@ class CPU():
         self.fetch()
 
     def fetch(self):
-        Logger.info("Fetching next instruction...")
+        Logger.info("Fetching next instruction of PID: " + self._current_pcb.get_id())
         if self._current_pcb.needs_reload():
             self._memory_manager.write(self._current_pcb)
         self._currentInstruction = self._memory_manager.read(self._current_pcb.get_pc())

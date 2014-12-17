@@ -73,6 +73,11 @@ class Main(cmd.Cmd):
         files = [fl.get_name() for fl in self._appModel.get_kernel().get_file_system().list_files()]
         print '\n'.join(files)
 
+    def do_runAll(self, stg):
+        self._appModel.run("Word")
+        self._appModel.run("Powerpoint")
+        self._appModel.run("Excel")
+
 
 if __name__ == '__main__':
     app = Main()

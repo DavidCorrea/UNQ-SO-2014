@@ -29,6 +29,7 @@ class IOQueue(Thread):
                 if current_process.has_finished():
                     current_process.increment()
                     break
-                #Logger.info("Managing IO Instruction")
+                Logger.info("Managing IO Instruction")
                 current_process.increment()
+            Logger.warning("Dispatching PCB!")
             self.dispatch()

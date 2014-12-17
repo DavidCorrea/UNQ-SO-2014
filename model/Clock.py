@@ -1,4 +1,5 @@
 from threading import Thread
+import time
 
 
 class Clock(Thread):
@@ -11,5 +12,6 @@ class Clock(Thread):
     def run(self):
         self._cpu.receive_pcb()
         while True:
+            time.sleep(0.2)
             self._cpu.run_tick()
             self._lock.acquire()

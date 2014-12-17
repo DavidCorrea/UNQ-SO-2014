@@ -15,6 +15,9 @@ class PCB:
     def __str__(self):
         return 'ID: ' + self._id
 
+    def get_id(self):
+        return str(self._id)
+
     def increment(self):
         self._info_holder.increment()
 

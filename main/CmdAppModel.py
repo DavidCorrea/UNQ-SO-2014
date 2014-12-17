@@ -17,3 +17,6 @@ class CmdAppModel:
 
     def run(self, program_name):
         self._kernel.run(program_name)
+
+    def get_kernel(self):
+        return self._kernel
